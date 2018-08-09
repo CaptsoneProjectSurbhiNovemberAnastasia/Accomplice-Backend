@@ -1,3 +1,4 @@
+
 const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
@@ -27,6 +28,7 @@ if (process.env.NODE_ENV === 'test') {
 //     done(err)
 //   }
 // })
+
 const createApp = () => {
   app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
@@ -60,7 +62,7 @@ const createApp = () => {
 
   // auth and api routes
   //app.use('/auth', require('./auth'));
-  console.log('Testing api');
+
   app.use('/api', require('./api'));
 
   // static file-serving middleware
@@ -106,3 +108,5 @@ if (require.main === module) {
 } else {
   createApp();
 }
+
+module.exports = app
