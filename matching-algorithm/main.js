@@ -4,6 +4,12 @@ const Sequelize = require('sequelize')
 const AlgorithmUser = require('./User')
 const { User, Trait } = require('../db/models')
 
+const runNTimes = (f, n, ...args) => {
+  for (let i = 0; i < n; i++) {
+    f(...args)
+  }
+}
+
 const init = async () => {
   let allUsers = await User.findAll({ include: [{ model: Trait }] })
   allUsers = allUsers.map(user => new AlgorithmUser(user))
@@ -14,15 +20,20 @@ const init = async () => {
   let popSize = 50
   let seed = allUsers
   let ourPopulation
-  let genNumber = 0
-  let highest = 0
 
-  const runAlgorithm = () => {
+  const runAlgorithm = n => {
     ourPopulation = new Population(popSize, seed, pC, pM)
 
     const tick = () => {
       ourPopulation.nextGeneration()
-      genNumber++
     }
+
+    runNTimes(tick, n)
+    return ourPopulation
   }
+
+  return runAlgorithm(1).currentPopulation
 }
+console.log(init())
+module.exports = init
+

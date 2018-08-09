@@ -1,6 +1,6 @@
-import RArray from './RArray'
+const RArray = require('./RArray')
 
 const DNASize = 10
 
 // May be redundant but may use later
-export default class DNA extends RArray {}
+module.exports = class DNA extends RArray {}

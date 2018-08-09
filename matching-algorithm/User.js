@@ -1,40 +1,8 @@
-export default class User {
+module.exports = class User {
   constructor(userFromDB) {
     this.traits = [...userFromDB.traits]
     this.id = userFromDB.id
   }
-
-  /*
-
-    traits: [
-              {
-                name: Extroversion
-                value: 50 (from quiz)
-                weight: 1 (change based on data)
-              },
-              {
-                name: Emotional Stability
-                value: 50 (from quiz)
-                weight: 1 (change based on data)
-              },
-              {
-                name: Agreeableness
-                value: 50 (from quiz)
-                weight: 1 (change based on data)
-              },
-              {
-                name: Consciensciousness
-                value: 50 (from quiz)
-                weight: 1 (change based on data)
-              },
-              {
-                name: Intellect
-                value: 50 (from quiz)
-                weight: 1 (change based on data)
-              },
-            ]
-
-    */
 
   getFitnessOfMatchWith(otherUser) {
     return User.getMatchFitnessBetween(this, otherUser)
