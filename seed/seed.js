@@ -1,6 +1,6 @@
 'use strict'
 
-const db = require('../server/db')
+const db = require('../db')
 const { User, Trait, UserTrait, Category } = require('../server/db/models')
 
 const userData = require('./usersdata.json')

@@ -1,10 +1,11 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-const Trait = db.define('trait', {
+const Tag = db.define('tag', {
   name: {
     type: Sequelize.STRING,
     allowNull: false,
   },
 })
-module.exports = Trait
+
+module.exports = Tag
