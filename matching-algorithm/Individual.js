@@ -1,7 +1,7 @@
 const RArray = './RArray'
 const DNA = './DNA'
 
-export default class Individual {
+module.exports = class Individual {
   // dna shall be an array of users, randomly selected out of all total users
   constructor(dna) {
     // assume dna must be an instance of class DNA

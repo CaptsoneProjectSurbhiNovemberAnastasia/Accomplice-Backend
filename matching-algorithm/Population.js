@@ -64,13 +64,17 @@ class Population {
     const fitnessSum = fitnessArr.reduce((sum, fitness) => sum + fitness, 0)
     let roll = Math.random() * fitnessSum
 
-    for (let i = 0; i < this.currentPop.length; i++) {
-      if (roll < fitnessArr[i]) return this.currentPop[i]
+    for (let i = 0; i < this.currentPopulation.length; i++) {
+      if (roll < fitnessArr[i]) {
+        return this.currentPopulation[i]
+      }
+
       roll -= fitnessArr[i]
     }
   }
 
   crossover(mom1, mom2) {
+    console.log(mom1)
     let num1 = mom1.dna.getRandomIndex(),
       num2 = mom2.dna.getRandomIndex()
 
