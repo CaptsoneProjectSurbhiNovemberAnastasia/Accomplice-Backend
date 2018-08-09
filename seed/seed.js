@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../db')
-const { User, Trait, UserTrait, Tag } = require('../server/db/models')
+const { User, Trait, UserTrait, Tag } = require('../db/models')
 
 const userData = require('./usersdata.json')
 // const userseed = path.join(__dirname, './usersdata.json');
@@ -25,37 +25,55 @@ const Op = Sequelize.Op
  */
 
 async function traitSeed() {
-  const traits = await Promise.all([
-    Trait.create({ name: 'Extraversion' }),
-    Trait.create({ name: 'EmotionalStability' }),
-    Trait.create({ name: 'Agreeableness' }),
-    Trait.create({ name: 'Conscientiousness' }),
-    Trait.create({ name: 'Intellect / Imagination' }),
-  ])
+  try {
+    const traits = await Promise.all([
+      Trait.create({ name: 'Extraversion' }),
+      Trait.create({ name: 'EmotionalStability' }),
+      Trait.create({ name: 'Agreeableness' }),
+      Trait.create({ name: 'Conscientiousness' }),
+      Trait.create({ name: 'Intellect / Imagination' }),
+    ])
 
-  console.log(`seeded ${traits.length} traits`)
+    console.log(`seeded ${traits.length} traits`)
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 async function tagSeed() {
-  const categories = await Promise.all([
-    Tag.create({ name: 'Athletic' }),
-    Tag.create({ name: 'Indoor' }),
-    Tag.create({ name: 'Artistic' }),
-  ])
+  try {
+    const categories = await Promise.all([
+      Tag.create({ name: 'Athletic' }),
+      Tag.create({ name: 'Indoor' }),
+      Tag.create({ name: 'Artistic' }),
+    ])
 
-  console.log(`seeded ${categories.length} categories`)
+    console.log(`seeded ${categories.length} categories`)
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 async function userSeed() {
-  let traits = await Trait.findAll()
-  for (let i = 0; i < userData.length; i++) {
-    const currentUser = User.create(userData[i])
-    traits.forEach(trait => {
-      currentUser.addTrait(trait, { value: Math.random() * 100 })
-    })
-  }
+  try {
+    let traits = await Trait.findAll()
+    for (let i = 0; i < userData.length; i++) {
+      const currentUser = await User.create(userData[i])
+      traits.forEach(async trait => {
+        try {
+          await currentUser.addTrait(trait, {
+            through: { value: Math.floor(Math.random() * 100) },
+          })
+        } catch (e) {
+          console.log(e)
+        }
+      })
+    }
 
-  console.log(`seeded ${userData.length} users`)
+    console.log(`seeded ${userData.length} users`)
+  } catch (e) {
+    console.log(e)
+  }
 }
 // We've separated the `seed` function from the `runSeed` function.
 // This way we can isolate the error handling and exit trapping.
