@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../db')
-const { User, Trait, UserTrait, Category } = require('../server/db/models')
+const { User, Trait, UserTrait, Tag } = require('../server/db/models')
 
 const userData = require('./usersdata.json')
 // const userseed = path.join(__dirname, './usersdata.json');
@@ -36,11 +36,11 @@ async function traitSeed() {
   console.log(`seeded ${traits.length} traits`)
 }
 
-async function categorySeed() {
+async function tagSeed() {
   const categories = await Promise.all([
-    Category.create({ name: 'Athletic' }),
-    Category.create({ name: 'Indoor' }),
-    Category.create({ name: 'Artistic' }),
+    Tag.create({ name: 'Athletic' }),
+    Tag.create({ name: 'Indoor' }),
+    Tag.create({ name: 'Artistic' }),
   ])
 
   console.log(`seeded ${categories.length} categories`)
@@ -67,7 +67,7 @@ async function runSeed() {
     console.log('db synced!')
     await traitSeed()
     await userSeed()
-    await categorySeed()
+    await tagSeed()
   } catch (err) {
     console.error(err)
     process.exitCode = 1
