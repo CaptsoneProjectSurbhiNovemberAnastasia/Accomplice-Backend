@@ -1,43 +1,16 @@
-export default class User {
+module.exports = class User {
   constructor(userFromDB) {
-    this.traits = [...userFromDB.traits]
+    // deal with awful eager loading structure
+    this.traits = userFromDB.traits.map(trait => ({
+      name: trait.name,
+      weight: trait.usertrait.weight,
+      value: trait.usertrait.value,
+    }))
     this.id = userFromDB.id
   }
 
-  /*
-
-    traits: [
-              {
-                name: Extroversion
-                value: 50 (from quiz)
-                weight: 1 (change based on data)
-              },
-              {
-                name: Emotional Stability
-                value: 50 (from quiz)
-                weight: 1 (change based on data)
-              },
-              {
-                name: Agreeableness
-                value: 50 (from quiz)
-                weight: 1 (change based on data)
-              },
-              {
-                name: Consciensciousness
-                value: 50 (from quiz)
-                weight: 1 (change based on data)
-              },
-              {
-                name: Intellect
-                value: 50 (from quiz)
-                weight: 1 (change based on data)
-              },
-            ]
-
-    */
-
   getFitnessOfMatchWith(otherUser) {
-    return User.getMatchFitnessBetween(this, otherUser)
+    return User.getFitnessOfMatchBetween(this, otherUser)
   }
 
   static getFitnessOfMatchBetween(userA, userB) {

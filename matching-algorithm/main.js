@@ -1,27 +1,44 @@
 const Population = require('./Population')
 const RArray = require('./RArray')
 const Sequelize = require('sequelize')
-const { User } = require('../db/models')
+const AlgorithmUser = require('./User')
+const { User, Trait, UserTrait } = require('../db/models')
 
-const init = async () => {
-  const allUsers = new RArray()
-
-  // IN PROGRESS
-
-  var pC = 0.8
-  var pM = 0.005
-  var popSize = 50
-  var seed = allUsers
-  let ourPopulation
-  let genNumber = 0
-  let highest = 0
-
-  const runAlgorithm = () => {
-    ourPopulation = new Population(popSize, seed, pC, pM)
-
-    const tick = () => {
-      ourPopulation.nextGeneration()
-      genNumber++
-    }
+const runNTimes = (f, n, ...args) => {
+  for (let i = 0; i < n; i++) {
+    f(...args)
   }
 }
+
+const init = async () => {
+  try {
+    let allUsers = await User.findAll({ include: [{ model: Trait }] })
+    allUsers = allUsers.map(user => new AlgorithmUser(user))
+    allUsers = new RArray(...allUsers)
+
+    let pC = 0.8
+    let pM = 0.005
+    let popSize = 50
+    let seed = allUsers
+    let ourPopulation
+
+    const runAlgorithm = n => {
+      ourPopulation = new Population(popSize, seed, pC, pM)
+
+      const tick = () => {
+        ourPopulation.nextGeneration()
+      }
+
+      runNTimes(tick, n)
+      return ourPopulation
+    }
+
+    return runAlgorithm(1).currentPopulation
+  } catch (e) {
+    console.log(e)
+  }
+}
+init()
+  .then(pop => console.log(pop))
+  .catch(e => console.log(e))
+module.exports = init

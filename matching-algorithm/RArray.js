@@ -1,10 +1,4 @@
-// const runNTimes = (f, n, ...args) => {
-//   for (let i = 0; i < n; i++) {
-//     f(...args)
-//   }
-// }
-
-export default class RArray extends Array {
+module.exports = class RArray extends Array {
   // no constructor--we want the default array constructor; we are only adding some convenient methods
   getRandomIndex() {
     return Math.floor(Math.random() * this.length)

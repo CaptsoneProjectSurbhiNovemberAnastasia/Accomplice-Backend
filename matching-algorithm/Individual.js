@@ -1,9 +1,8 @@
-import RArray from './RArray'
-import DNA from './DNA'
-import { allUsers } from 'main'
+const RArray = './RArray'
+const DNA = './DNA'
 
-export default class Individual {
-  // dna shall be an array of users, randomly selected from all total users
+module.exports = class Individual {
+  // dna shall be an array of users, randomly selected out of all total users
   constructor(dna) {
     // assume dna must be an instance of class DNA
     this.dna = dna
@@ -19,15 +18,15 @@ export default class Individual {
     return fitness
   }
 
-  mutate(p) {
+  mutate(p, genePool) {
     // p shall be the probability of mutation
     const mutatedUserSelection = this.dna.slice()
     for (let i = 0; i < mutatedUserSelection.length; i++) {
       if (Math.random() < p) {
         const randMatchIndex = mutatedUserSelection.getRandomIndex(),
-          randUserIndex = allUsers.getRandomIndex()
+          randUserIndex = genePool.getRandomIndex()
 
-        const userToSwapIn = allUsers[randUserIndex]
+        const userToSwapIn = genePool[randUserIndex]
         this.dna[randMatchIndex] = userToSwapIn
       }
     }

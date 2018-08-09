@@ -1,12 +1,11 @@
-import User from './User'
-import Individual from './Individual'
-import RArray from './RArray'
-import { allUsers } from 'main'
+const User = require('./User')
+const Individual = require('./Individual')
+const RArray = require('./RArray')
 
-export default class Population {
+class Population {
   constructor(size, seed, probCross, probMuta) {
-    if (!seed) seed = allUsers
     // size shall be an integer to multiply allUsers by -- can elaborate on request
+    this.seed = seed
     this.probCross = probCross
     this.probMuta = probMuta
     this.genNumber = 0
@@ -54,7 +53,7 @@ export default class Population {
         : new RArray(mom1, mom2)
 
     const mutatedChildren = possiblyCrossed.map(individual =>
-      individual.mutate(this.probMuta)
+      individual.mutate(this.probMuta, this.seed)
     )
 
     return mutatedChildren
@@ -65,13 +64,17 @@ export default class Population {
     const fitnessSum = fitnessArr.reduce((sum, fitness) => sum + fitness, 0)
     let roll = Math.random() * fitnessSum
 
-    for (let i = 0; i < this.currentPop.length; i++) {
-      if (roll < fitnessArr[i]) return this.currentPop[i]
+    for (let i = 0; i < this.currentPopulation.length; i++) {
+      if (roll < fitnessArr[i]) {
+        return this.currentPopulation[i]
+      }
+
       roll -= fitnessArr[i]
     }
   }
 
   crossover(mom1, mom2) {
+    console.log(mom1)
     let num1 = mom1.dna.getRandomIndex(),
       num2 = mom2.dna.getRandomIndex()
 
@@ -80,11 +83,15 @@ export default class Population {
 
     const firstOffspring = orderedCross(segmentStart, segmentEnd, mom1, mom2),
       secOffspring = orderedCross(segmentStart, segmentEnd, mom2, mom1)
+    return new RArray(
+      new Individual(firstOffspring),
+      new Individual(secOffspring)
+    )
   }
 }
 
 // i don't think this algorithm needs ordered crossover, but i'm just copying this from github.com/ptrkkim/Genetic-Algo-Tech-Talk/ for now!!
-export const orderedCross = (start, end, segParent, otherParent) => {
+const orderedCross = (start, end, segParent, otherParent) => {
   const childDNA = segParent.dna.slice(start, end),
     dnaLength = segParent.dna.length
 
@@ -101,5 +108,6 @@ export const orderedCross = (start, end, segParent, otherParent) => {
 }
 
 // TODO: add as static method of class User!!
-export const sameUser = (user1, user2) => user1.id === user2.id
+const sameUser = (user1, user2) => user1.id === user2.id
 
+module.exports = Population
