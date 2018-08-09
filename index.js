@@ -17,7 +17,14 @@ app.use(function(req, res, next) {
 });
 
 app.get('/', (req, res, next) => {
-  res.send({test: 'data'})
+  res.send({users: [
+    {name: 'Test1', userid: 1},
+    {name: 'Test2', userid: 2},
+    {name: 'Test3', userid: 3},
+    {name: 'Test4', userid: 4},
+    {name: 'Test5', userid: 5},
+    {name: 'Test6', userid: 6}
+  ]})
 })
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`))
