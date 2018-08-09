@@ -79,8 +79,8 @@ const createApp = () => {
 };
 
 // app.get('/', (req, res, next) => {
-//   res.send({test: 'data'})
-// })
+//   res.send({ test: 'data' });
+// });
 
 const startListening = () => {
   // start listening (and create a 'server' object representing our server)
