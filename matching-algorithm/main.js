@@ -1,17 +1,18 @@
 const Population = require('./Population')
 const RArray = require('./RArray')
 const Sequelize = require('sequelize')
-const { User } = require('../db/models')
+const AlgorithmUser = require('./User')
+const { User, Trait } = require('../db/models')
 
 const init = async () => {
-  const allUsers = new RArray()
+  let allUsers = await User.findAll({ include: [{ model: Trait }] })
+  allUsers = allUsers.map(user => new AlgorithmUser(user))
+  allUsers = new RArray(...allUsers)
 
-  // IN PROGRESS
-
-  var pC = 0.8
-  var pM = 0.005
-  var popSize = 50
-  var seed = allUsers
+  let pC = 0.8
+  let pM = 0.005
+  let popSize = 50
+  let seed = allUsers
   let ourPopulation
   let genNumber = 0
   let highest = 0
