@@ -20,7 +20,7 @@ Tag.belongsToMany(Activity, { through: 'ActivityTag' })
 User.belongsTo(Activity)
 Activity.hasMany(User)
 
-User.belongsToMany(User, { through: 'Match' })
+User.belongsToMany(User, { through: 'Matches', as: 'Match' })
 
 /**
  * We'll export all of our models here, so that any time a module needs a model,

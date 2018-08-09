@@ -5,6 +5,7 @@ const UserTrait = db.define('usertrait', {
   weight: {
     type: Sequelize.INTEGER,
     allowNull: false,
+    defaultValue: 1,
     validate: {
       min: 0,
       max: 2,
@@ -15,7 +16,7 @@ const UserTrait = db.define('usertrait', {
     allowNull: false,
     validate: {
       min: 0,
-      max: 10,
+      max: 100,
     },
   },
 })
