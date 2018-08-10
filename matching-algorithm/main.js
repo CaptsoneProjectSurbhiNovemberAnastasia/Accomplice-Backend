@@ -12,6 +12,8 @@ const runNTimes = (f, n, ...args) => {
 
 const init = async () => {
   try {
+    await SuggestedMatch.destroy({ where: {} })
+
     let allUsers = await User.findAll({ include: [{ model: Trait }] })
     allUsers = allUsers.map(user => new AlgorithmUser(user))
     allUsers = new RArray(...allUsers)
@@ -33,16 +35,19 @@ const init = async () => {
       return ourPopulation
     }
 
-    const evolvedPopulation = runAlgorithm(10000)
+    const evolvedPopulation = runAlgorithm(10)
 
-    await SuggestedMatch.destroy({ where: {} })
-    evolvedPopulation.currentPopulation.forEach(async (individual, i) => {
-      const currentIndividual = await SuggestedMatch.create({ id: i + 1 })
-      individual.forEach(async user => {
-        const currentUser = await User.findById(user.id)
-        await currentUser.addSuggestedMatch(currentIndividual)
-      })
-    })
+    const allIndividuals = evolvedPopulation.currentPopulation
+    // phew...
+    for (let i = 0; i < allIndividuals.length; i++) {
+      const currentIndividual = allIndividuals[i].dna
+      const modelOfCurrentIndividual = await SuggestedMatch.create({})
+      for (let j = 0; j < currentIndividual.length; j++) {
+        const userInsideIndividual = currentIndividual[j]
+        const userFromDB = await User.findById(userInsideIndividual.id)
+        await userFromDB.addSuggestedmatch(modelOfCurrentIndividual)
+      }
+    }
 
     return evolvedPopulation
   } catch (e) {
