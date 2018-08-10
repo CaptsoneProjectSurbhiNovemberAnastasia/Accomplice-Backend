@@ -3,7 +3,7 @@ const Trait = require('./trait')
 const UserTrait = require('./usertrait')
 const Tag = require('./tag')
 const Activity = require('./activity')
-const SuggestedMatches = require('./suggestedmatches')
+const SuggestedMatch = require('./suggestedmatch')
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -23,13 +23,13 @@ Activity.hasMany(User)
 
 User.belongsToMany(User, { through: 'Matches', as: 'Match' })
 
-User.belongsToMany(SuggestedMatches, {
+User.belongsToMany(SuggestedMatch, {
   through: 'SuggestedMatchesPerUser',
-  onDelete: 'cascade'
+  onDelete: 'cascade',
 })
-SuggestedMatches.belongstoMany(User, {
+SuggestedMatch.belongsToMany(User, {
   through: 'SuggestedMatchesPerUser',
-  onDelete: 'cascade'
+  onDelete: 'cascade',
 })
 /**
  * We'll export all of our models here, so that any time a module needs a model,
@@ -43,5 +43,5 @@ module.exports = {
   UserTrait,
   Tag,
   Activity,
-  SuggestedMatches
+  SuggestedMatch,
 }

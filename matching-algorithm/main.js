@@ -2,7 +2,7 @@ const Population = require('./Population')
 const RArray = require('./RArray')
 const Sequelize = require('sequelize')
 const AlgorithmUser = require('./User')
-const { User, Trait, UserTrait } = require('../db/models')
+const { User, Trait, SuggestedMatch } = require('../db/models')
 
 const runNTimes = (f, n, ...args) => {
   for (let i = 0; i < n; i++) {
@@ -33,7 +33,18 @@ const init = async () => {
       return ourPopulation
     }
 
-    return runAlgorithm(10000)
+    const evolvedPopulation = runAlgorithm(10000)
+
+    await SuggestedMatch.destroy({ where: {} })
+    evolvedPopulation.currentPopulation.forEach(async (individual, i) => {
+      const currentIndividual = await SuggestedMatch.create({ id: i + 1 })
+      individual.forEach(async user => {
+        const currentUser = await User.findById(user.id)
+        await currentUser.addSuggestedMatch(currentIndividual)
+      })
+    })
+
+    return evolvedPopulation
   } catch (e) {
     console.log(e)
   }
