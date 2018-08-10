@@ -1,8 +1,9 @@
-const User = require('./user')
-const Trait = require('./trait')
-const UserTrait = require('./usertrait')
-const Tag = require('./tag')
-const Activity = require('./activity')
+const User = require('./user');
+const Trait = require('./trait');
+const UserTrait = require('./usertrait');
+const Tag = require('./tag');
+const Activity = require('./activity');
+const SuggestedMatches = require('./suggestedmatches');
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -11,17 +12,19 @@ const Activity = require('./activity')
  *    BlogPost.belongsTo(User)
  */
 
-Trait.belongsToMany(User, { through: UserTrait })
-User.belongsToMany(Trait, { through: UserTrait })
+Trait.belongsToMany(User, { through: UserTrait });
+User.belongsToMany(Trait, { through: UserTrait });
 
-Activity.belongsToMany(Tag, { through: 'ActivityTag' })
-Tag.belongsToMany(Activity, { through: 'ActivityTag' })
+Activity.belongsToMany(Tag, { through: 'ActivityTag' });
+Tag.belongsToMany(Activity, { through: 'ActivityTag' });
 
-User.belongsTo(Activity)
-Activity.hasMany(User)
+User.belongsTo(Activity);
+Activity.hasMany(User);
 
-User.belongsToMany(User, { through: 'Matches', as: 'Match' })
+User.belongsToMany(User, { through: 'Matches', as: 'Match' });
 
+User.belongsToMany(SuggestedMatches, { through: 'SuggestedMatchesPerUser' });
+SuggestedMatches.belongstoMany(User, { through: 'SuggestedMatchesPerUser' });
 /**
  * We'll export all of our models here, so that any time a module needs a model,
  * we can just require it from 'db/models'
@@ -34,4 +37,5 @@ module.exports = {
   UserTrait,
   Tag,
   Activity,
-}
+  SuggestedMatches
+};
