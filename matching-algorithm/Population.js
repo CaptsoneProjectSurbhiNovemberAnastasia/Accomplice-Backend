@@ -23,7 +23,7 @@ class Population {
   }
 
   // creates next generation for a population
-  // updates currentPop, currentFitnesses, returns modified population object
+  // updates currentPopulation, currentFitnesses, returns modified population object
   nextGeneration() {
     let nextPopulation = new RArray()
 
@@ -47,6 +47,7 @@ class Population {
   haveTwoChildren() {
     const mom1 = this.select(),
       mom2 = this.select()
+
     const possiblyCrossed =
       Math.random() < this.probCross
         ? this.crossover(mom1, mom2)
@@ -74,40 +75,40 @@ class Population {
   }
 
   crossover(mom1, mom2) {
-    console.log(mom1)
     let num1 = mom1.dna.getRandomIndex(),
       num2 = mom2.dna.getRandomIndex()
 
     const segmentStart = Math.min(num1, num2),
       segmentEnd = Math.max(num1, num2)
 
-    const firstOffspring = orderedCross(segmentStart, segmentEnd, mom1, mom2),
-      secOffspring = orderedCross(segmentStart, segmentEnd, mom2, mom1)
+    const firstOffspring = twoPtCross(segmentStart, segmentEnd, mom1, mom2),
+      secOffspring = twoPtCross(segmentStart, segmentEnd, mom2, mom1)
     return new RArray(
       new Individual(firstOffspring),
       new Individual(secOffspring)
     )
   }
-}
 
-// i don't think this algorithm needs ordered crossover, but i'm just copying this from github.com/ptrkkim/Genetic-Algo-Tech-Talk/ for now!!
-const orderedCross = (start, end, segParent, otherParent) => {
-  const childDNA = segParent.dna.slice(start, end),
-    dnaLength = segParent.dna.length
+  getFittest() {
+    const fittestIndex = this.currentFitnesses.reduce(
+      (fittestInd, currentScore, i, scores) => {
+        if (currentScore > scores[fittestInd]) return i
+        return fittestInd
+      },
+      0
+    )
 
-  for (let i = 0; i < dnaLength; i++) {
-    const parentIndex = (end + i) % dnaLength
-    const parentUser = otherParent.dna[parentIndex]
-
-    if (!childDNA.some(user => sameUser(user, parentUser))) {
-      childDNA.push(parentUser)
-    }
+    return this.currentPopulation[fittestIndex]
   }
-
-  return childDNA.rotate(start)
 }
 
-// TODO: add as static method of class User!!
-const sameUser = (user1, user2) => user1.id === user2.id
+// just a naive two point cross https://en.wikipedia.org/wiki/Crossover_(genetic_algorithm)#Two-point_and_k-point_crossover
+const twoPtCross = (start, end, segParent, otherParent) => {
+  const childDNA = segParent.dna.slice(start, end)
+  return otherParent.dna
+    .slice(0, start)
+    .concat(childDNA)
+    .concat(otherParent.dna.slice(end))
+}
 
 module.exports = Population

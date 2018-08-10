@@ -9,16 +9,25 @@ module.exports = class RArray extends Array {
   }
 
   getNRandomElements(n) {
-    const randomElements = []
-    for (let i = 0; i < n; i++) {
-      randomElements.push(this.getRandomElement())
+    const randomElements = new RArray()
+    while (randomElements.length < n) {
+      // uPush may not add to the length of randomElements, thus a while loop
+      randomElements.uPush(this.getRandomElement())
     }
     return randomElements
   }
 
-  rotate(i) {
-    const offset = this.length - i
-    return new RArray(...this.slice(offset), ...this.slice(0, offset))
+  // unique element addition
+  uPush(ele) {
+    return this.includes(ele) ? this : this.push(ele)
+  }
+
+  // unique array concatenation
+  uConcat(rArray) {
+    const toPush = rArray.slice()
+    while (toPush.length) {
+      this.uPush(toPush.splice(0, 1)[0])
+    }
   }
 }
 

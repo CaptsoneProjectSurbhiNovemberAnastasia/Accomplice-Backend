@@ -28,4 +28,12 @@ module.exports = class User {
     // otherUsers shall be an array of type DNA
     return otherUsers.reduce((a, b) => a + this.getFitnessOfMatchWith(b), 0)
   }
+
+  static areEqual(userA, userB) {
+    return userA.id === userB.id
+  }
+
+  equals(otherUser) {
+    return User.areEqual(this, otherUser)
+  }
 }

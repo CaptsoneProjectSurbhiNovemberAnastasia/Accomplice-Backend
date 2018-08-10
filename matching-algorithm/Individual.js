@@ -1,11 +1,11 @@
-const RArray = './RArray'
-const DNA = './DNA'
+const RArray = require('./RArray')
+const DNA = require('./DNA')
 
 module.exports = class Individual {
   // dna shall be an array of users, randomly selected out of all total users
   constructor(dna) {
-    // assume dna must be an instance of class DNA
-    this.dna = dna
+    if (dna.length > 10) console.log(dna, dna.length)
+    this.dna = new DNA(...dna)
   }
 
   getFitness() {
@@ -15,7 +15,7 @@ module.exports = class Individual {
       const userToCompare = dnaCopy.splice(0, 1)[0]
       fitness += userToCompare.getFitnessOfMatchWithAll(dnaCopy)
     }
-    return fitness
+    return 1 / fitness
   }
 
   mutate(p, genePool) {
