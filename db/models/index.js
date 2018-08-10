@@ -27,6 +27,7 @@ User.belongsToMany(SuggestedMatch, {
   through: 'SuggestedMatchesPerUser',
   onDelete: 'cascade',
 })
+
 SuggestedMatch.belongsToMany(User, {
   through: 'SuggestedMatchesPerUser',
   onDelete: 'cascade',
