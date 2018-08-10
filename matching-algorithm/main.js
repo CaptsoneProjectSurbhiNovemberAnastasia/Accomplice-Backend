@@ -58,5 +58,5 @@ const init = async () => {
 init()
   .then(pop => console.log(pop.getAverageFitness()))
   .catch(e => console.log(e))
-  .finally(() => process.exit())
+  .then(() => process.exit())
 module.exports = init
