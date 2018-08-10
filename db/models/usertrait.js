@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-const UserTrait = db.define('usertrait', {
+const UserTrait = db.define('user_trait', {
   weight: {
     type: Sequelize.INTEGER,
     allowNull: false,

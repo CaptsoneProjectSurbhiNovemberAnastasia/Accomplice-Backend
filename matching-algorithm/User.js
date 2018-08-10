@@ -3,8 +3,8 @@ module.exports = class User {
     // deal with awful eager loading structure
     this.traits = userFromDB.traits.map(trait => ({
       name: trait.name,
-      weight: trait.usertrait.weight,
-      value: trait.usertrait.value,
+      weight: trait.user_trait.weight,
+      value: trait.user_trait.value,
     }))
     this.id = userFromDB.id
   }

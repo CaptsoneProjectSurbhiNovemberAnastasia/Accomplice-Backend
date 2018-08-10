@@ -16,21 +16,21 @@ const SuggestedMatchesPerUser = require('./suggestedmatchesperuser')
 Trait.belongsToMany(User, { through: UserTrait })
 User.belongsToMany(Trait, { through: UserTrait })
 
-Activity.belongsToMany(Tag, { through: 'ActivityTag' })
-Tag.belongsToMany(Activity, { through: 'ActivityTag' })
+Activity.belongsToMany(Tag, { through: 'activity_tag' })
+Tag.belongsToMany(Activity, { through: 'activity_tag' })
 
 User.belongsTo(Activity)
 Activity.hasMany(User)
 
-User.belongsToMany(User, { through: 'Matches', as: 'Match' })
+User.belongsToMany(User, { through: 'matches', as: 'match' })
 
 User.belongsToMany(SuggestedMatch, {
-  through: 'SuggestedMatchesPerUser',
+  through: SuggestedMatchesPerUser,
   onDelete: 'cascade',
 })
 
 SuggestedMatch.belongsToMany(User, {
-  through: 'SuggestedMatchesPerUser',
+  through: SuggestedMatchesPerUser,
   onDelete: 'cascade',
 })
 /**

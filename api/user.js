@@ -1,23 +1,23 @@
 const router = require('express').Router()
-const { Op } = require(Sequelize)
+// const { Op } = require('Sequelize')
 const { SuggestedMatchesPerUser, User } = require('../db/models')
+// const { Op } = require('../db')
+
 module.exports = router
 
 router.get('/:id/suggestedmatches', async (req, res, next) => {
   try {
-    const userId = req.params.id
+    const ourUserId = Number(req.params.id)
 
-    const match = await SuggestedMatchesPerUser.findOne({ where: { userId } })
+    const match = await SuggestedMatchesPerUser.findOne({ where: { userId: ourUserId } })
 
-    const matchId = match.suggestedmatchId
+    const matchId = match.suggestedMatchId
 
     const possibleUserMatchIds = await SuggestedMatchesPerUser.findAll({
-      where: { suggestedmatchId: matchId, userId: { [Op.not]: userId } },
+      where: { suggestedMatchId: matchId}
     })
 
-    const possibleMatches = await User.findAll({
-      where: { id: { [Op.in]: possibleUserMatchIds } },
-    })
+    const possibleMatches = await User.findAll({/* where: { id: { [Op.in]: possibleUserMatchIds } }*/})
 
     res.json(possibleMatches).status(200)
   } catch (e) {

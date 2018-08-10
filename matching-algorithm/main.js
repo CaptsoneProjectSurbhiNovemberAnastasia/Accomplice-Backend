@@ -45,7 +45,7 @@ const init = async () => {
       for (let j = 0; j < currentIndividual.length; j++) {
         const userInsideIndividual = currentIndividual[j]
         const userFromDB = await User.findById(userInsideIndividual.id)
-        await userFromDB.addSuggestedmatch(modelOfCurrentIndividual)
+        await userFromDB.addSuggested_match(modelOfCurrentIndividual)
       }
     }
 
