@@ -31,12 +31,4 @@ module.exports = class RArray extends Array {
   }
 }
 
-// export const getNRandomValuesAndRemove = (arr, n) => {
-//   if (arr.length < n) n = arr.length - 1
-//   let nRandomValues = []
-//   for (let i = 0; i < n; i++) {
-//     const randIndex = getRandomIndex(arr)
-//     array = array.splice(randIndex, 1)
-//   }
-//   return nRandomValues
-// }
+

@@ -38,7 +38,9 @@ const init = async () => {
     console.log(e)
   }
 }
+
 init()
-  .then(pop => console.log(pop.getFittest().getFitness()))
+  .then(pop => console.log(pop.getAverageFitness()))
   .catch(e => console.log(e))
+  .finally(() => process.exit())
 module.exports = init

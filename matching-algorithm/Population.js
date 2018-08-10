@@ -2,6 +2,19 @@ const User = require('./User')
 const Individual = require('./Individual')
 const RArray = require('./RArray')
 
+/*
+ * instance of class Population is a collection of Individuals,
+ * with methods to reveal data about and advance the population.
+ *
+ * TODO: Ensure uniqueness within instances of class DNA. Dup-
+ * licates can currently be included with Array.prototype.concat,
+ * thought they are prevented when pushing through use of
+ * RArray.prototype.uPush.
+ *
+ * TODO: Ensure DNA size of exactly 10. Currently, elements can
+ * be excluded through uPush, when pushing, which may lead to a
+ * Decreased DNA size
+ */
 class Population {
   constructor(size, seed, probCross, probMuta) {
     // size shall be an integer to multiply allUsers by -- can elaborate on request
@@ -60,9 +73,13 @@ class Population {
     return mutatedChildren
   }
 
+  getSumOfAllFitnesses() {
+    return this.currentFitnesses.reduce((sum, fitness) => sum + fitness, 0)
+  }
+
   select() {
     const fitnessArr = this.currentFitnesses
-    const fitnessSum = fitnessArr.reduce((sum, fitness) => sum + fitness, 0)
+    const fitnessSum = this.getSumOfAllFitnesses()
     let roll = Math.random() * fitnessSum
 
     for (let i = 0; i < this.currentPopulation.length; i++) {
@@ -99,6 +116,10 @@ class Population {
     )
 
     return this.currentPopulation[fittestIndex]
+  }
+
+  getAverageFitness() {
+    return this.getSumOfAllFitnesses() / this.currentPopulation.length
   }
 }
 
