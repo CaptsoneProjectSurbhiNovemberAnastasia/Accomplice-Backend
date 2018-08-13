@@ -3,7 +3,6 @@ const router = require('express').Router()
 const { SuggestedMatchesPerUser, User } = require('../db/models')
 // const { Op } = require('../db')
 
-module.exports = router
 
 router.get('/:id/suggestedmatches', async (req, res, next) => {
   try {
@@ -17,7 +16,13 @@ router.get('/:id/suggestedmatches', async (req, res, next) => {
       where: { suggestedMatchId: matchId}
     })
 
-    const possibleMatches = await User.findAll({/* where: { id: { [Op.in]: possibleUserMatchIds } }*/})
+    let possibleMatches = [];
+    for (var i = 0; i < possibleUserMatchIds.length; i++) {
+      if (possibleUserMatchIds[i].userId === ourUserId) {
+        possibleUserMatchIds.splice(i, 1)
+      }
+      possibleMatches.push(await User.findOne({where: { id: possibleUserMatchIds[i].userId}}))
+    }
 
     res.json(possibleMatches).status(200)
   } catch (e) {
@@ -40,3 +45,5 @@ router.get('/', (req, res, next) => {
 //     })
 //     .catch(next);
 // });
+
+module.exports = router
