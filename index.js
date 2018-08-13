@@ -10,6 +10,7 @@ const sessionStore = new SequelizeStore({ db })
 const PORT = process.env.PORT || 8080
 const app = express()
 const bodyParser = require('body-parser')
+module.exports = app
 
 // This is a global Mocha hook, used for resource cleanup.
 // Otherwise, Mocha v4+ never quits after tests.
@@ -38,8 +39,6 @@ const createApp = () => {
     next()
   })
 
-  app.use(compression())
-
   // logging middleware
   app.use(morgan('dev'))
 
@@ -48,6 +47,7 @@ const createApp = () => {
   app.use(express.urlencoded({ extended: true }))
   app.use(bodyParser.urlencoded({ extended: false }))
   app.use(bodyParser.json())
+  app.use(compression())
 
   //session middleware with passport
   app.use(
@@ -106,4 +106,3 @@ if (require.main === module) {
   createApp()
 }
 
-module.exports = app
