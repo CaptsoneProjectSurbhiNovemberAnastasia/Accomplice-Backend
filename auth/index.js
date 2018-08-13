@@ -37,3 +37,7 @@ router.post('/signup', (req, res, next) => {
       }
     })
 })
+
+router.get('/me', (req, res) => {
+  res.json(req.user)
+})
