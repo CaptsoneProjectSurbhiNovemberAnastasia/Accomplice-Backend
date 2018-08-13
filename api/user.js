@@ -3,7 +3,17 @@ const { SuggestedMatchesPerUser, User } = require('../db/models')
 
 module.exports = router
 
+//GET /api/user/:id single user
+router.get('/:id', async (req, res, next) => {
+  try {
+    const currentUser = await User.findById(req.params.id)
+    res.json(currentUser).status(200)
+  } catch (err) {
+    next(err)
+  }
+})
 
+//GET /api/users/:id:/suggestedmatches
 router.get('/:id/suggestedmatches', async (req, res, next) => {
   try {
     const ourUserId = Number(req.params.id)
@@ -28,13 +38,6 @@ router.get('/:id/suggestedmatches', async (req, res, next) => {
   } catch (e) {
     next(e)
   }
-})
-
-// get all users
-router.get('/', (req, res, next) => {
-  User.findAll()
-    .then(users => res.json(users))
-    .catch(e => next(e))
 })
 
 router.post('/login', (req, res, next) => {
