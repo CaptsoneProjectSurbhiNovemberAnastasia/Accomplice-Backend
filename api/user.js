@@ -1,7 +1,7 @@
 const router = require('express').Router()
-// const { Op } = require('Sequelize')
 const { SuggestedMatchesPerUser, User } = require('../db/models')
-// const { Op } = require('../db')
+
+module.exports = router
 
 
 router.get('/:id/suggestedmatches', async (req, res, next) => {
@@ -37,6 +37,39 @@ router.get('/', (req, res, next) => {
     .catch(e => next(e))
 })
 
+router.post('/login', (req, res, next) => {
+  User.findOne({ where: { email: req.body.email } })
+    .then(user => {
+      if (!user) {
+        res.status(401).send('User not found')
+      } else if (!user.correctPassword(req.body.password)) {
+        res.status(401).send('Incorrect password')
+      } else {
+        res.json(user)
+        //req.login(user, err => (err ? next(err) : res.json(user)))
+      }
+    })
+    .catch(next)
+})
+
+router.post('/signup', (req, res, next) => {
+  User.create(req.body)
+    .then(user => {
+      res.json(user)
+      //req.login(user, err => (err ? next(err) : res.json(user)))
+    })
+    .catch(err => {
+      if (err.name === 'SequelizeUniqueConstraintError') {
+        res.status(401).send('User already exists')
+      } else {
+        next(err)
+      }
+    })
+})
+// router.get('/', (req, res, next) => {
+//   res.send({ test: 'data' });
+// });
+
 //update a user's profile
 // router.put('/:userId', (req, res, next) => {
 //   User.findById(req.params.userId)
@@ -46,4 +79,3 @@ router.get('/', (req, res, next) => {
 //     .catch(next);
 // });
 
-module.exports = router
