@@ -49,7 +49,7 @@ const User = db.define(
       allowNull: false
     },
     imageUrl: {
-      type: Sequelize.BLOB('long'),
+      type: Sequelize.STRING,
       defaultValue: '#'
     },
 
