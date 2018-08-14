@@ -3,9 +3,7 @@
 const db = require('../db')
 const { User, Trait, UserTrait, Tag } = require('../db/models')
 
-const userData = require('./usersdata.json')
-// const userseed = path.join(__dirname, './usersdata.json');
-// const dataArr = fs.readFileSync(userseed, 'utf8').split('\n');
+const userData = require('./usersdata1.json')
 
 // necessary for sequelize functions such as and/or
 // see http://docs.sequelizejs.com/manual/tutorial/querying.html
