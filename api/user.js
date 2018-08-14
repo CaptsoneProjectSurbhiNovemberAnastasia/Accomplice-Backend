@@ -6,12 +6,13 @@ module.exports = router
 //GET /api/user/:id single user
 router.get('/:id', async (req, res, next) => {
   try {
-    if (req.user.id === req.params.id) {
+    // if (req.user.id === req.params.id) {
+      console.log(req.user)
       const user = await User.findById(req.params.id)
       res.json(user).status(200)
-    } else {
-      res.send('FORBIDDEN').status(403)
-    }
+    // } else {
+    //   res.send('FORBIDDEN').status(403)
+    // }
   } catch (err) {
     next(err)
   }

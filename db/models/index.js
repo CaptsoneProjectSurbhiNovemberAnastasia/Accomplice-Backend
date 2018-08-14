@@ -5,6 +5,7 @@ const Tag = require('./tag')
 const Activity = require('./activity')
 const SuggestedMatch = require('./suggestedmatch')
 const SuggestedMatchesPerUser = require('./suggestedmatchesperuser')
+const Match = require('./match')
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -47,4 +48,5 @@ module.exports = {
   Activity,
   SuggestedMatch,
   SuggestedMatchesPerUser,
+  Match
 }
