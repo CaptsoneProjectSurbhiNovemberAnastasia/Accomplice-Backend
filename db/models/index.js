@@ -23,7 +23,7 @@ Tag.belongsToMany(Activity, { through: 'activity_tag' })
 User.belongsTo(Activity)
 Activity.hasMany(User)
 
-User.belongsToMany(User, { through: 'matches', as: 'match' })
+User.belongsToMany(User, { through: Match, as: 'matched' })
 
 User.belongsToMany(SuggestedMatch, {
   through: SuggestedMatchesPerUser,
@@ -48,5 +48,5 @@ module.exports = {
   Activity,
   SuggestedMatch,
   SuggestedMatchesPerUser,
-  Match
+  Match,
 }

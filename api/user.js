@@ -7,9 +7,9 @@ module.exports = router
 router.get('/:id', async (req, res, next) => {
   try {
     // if (req.user.id === req.params.id) {
-      console.log(req.user)
-      const user = await User.findById(req.params.id)
-      res.json(user).status(200)
+    console.log(req.user)
+    const user = await User.findById(req.params.id)
+    res.json(user).status(200)
     // } else {
     //   res.send('FORBIDDEN').status(403)
     // }
@@ -29,15 +29,18 @@ router.get('/:id/suggestedmatches', async (req, res, next) => {
       if (match) {
         const matchId = match.suggestedMatchId
 
-        const possibleUserMatchIds = await SuggestedMatchesPerUser.findAll({
+        let possibleUserMatchIds = await SuggestedMatchesPerUser.findAll({
           where: { suggestedMatchId: matchId },
         })
 
         let possibleMatches = []
-        for (var i = 0; i < possibleUserMatchIds.length; i++) {
-          if (possibleUserMatchIds[i].userId === ourUserId) {
-            possibleUserMatchIds.splice(i, 1)
-          }
+
+        //filter out ourself
+        possibleUserMatchIds = possibleUserMatchIds.filter(
+          mch => mch.userId !== ourUserId
+        )
+
+        for (let i = 0; i < possibleUserMatchIds.length; i++) {
           possibleMatches.push(
             await User.findOne({
               where: { id: possibleUserMatchIds[i].userId },
