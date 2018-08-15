@@ -21,17 +21,17 @@ const User = db.define(
     },
     firstName: {
       type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
+      allowNull: true,
+      // validate: {
+      //   notEmpty: true,
+      // },
     },
     lastName: {
       type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
+      allowNull: true,
+      // validate: {
+      //   notEmpty: true,
+      // },
     },
     salt: {
       type: Sequelize.TEXT,
@@ -46,7 +46,7 @@ const User = db.define(
     },
     age: {
       type: Sequelize.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
     imageUrl: {
       type: Sequelize.TEXT,
@@ -55,7 +55,7 @@ const User = db.define(
 
     description: {
       type: Sequelize.TEXT,
-      allowNull: false,
+      allowNull: true,
     },
 
     latitude: {
