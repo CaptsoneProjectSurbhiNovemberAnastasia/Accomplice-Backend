@@ -9,7 +9,7 @@ const User = db.define(
       type: Sequelize.STRING,
       unique: true,
       allowNull: false,
-      isEmail: true,
+      isEmail: true
     },
     password: {
       type: Sequelize.STRING,
@@ -17,21 +17,21 @@ const User = db.define(
       // This is a hack to get around Sequelize's lack of a "private" option.
       get() {
         return () => this.getDataValue('password')
-      },
+      }
     },
     firstName: {
       type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
+      allowNull: true
+      // validate: {
+      //   notEmpty: true,
+      // },
     },
     lastName: {
       type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
+      allowNull: true
+      // validate: {
+      //   notEmpty: true,
+      // },
     },
     salt: {
       type: Sequelize.TEXT,
@@ -39,37 +39,37 @@ const User = db.define(
       // This is a hack to get around Sequelize's lack of a "private" option.
       get() {
         return () => this.getDataValue('salt')
-      },
+      }
     },
     facebookId: {
-      type: Sequelize.STRING,
+      type: Sequelize.STRING
     },
     age: {
       type: Sequelize.INTEGER,
-      allowNull: false,
+      allowNull: true
     },
     imageUrl: {
       type: Sequelize.TEXT,
-      defaultValue: '#',
+      defaultValue: '#'
     },
 
     description: {
       type: Sequelize.TEXT,
-      allowNull: false,
+      allowNull: true
     },
 
     latitude: {
       type: Sequelize.FLOAT,
       allowNull: true,
       defaultValue: null,
-      validate: { min: -90, max: 90 },
+      validate: { min: -90, max: 90 }
     },
     longitude: {
       type: Sequelize.FLOAT,
       allowNull: true,
       defaultValue: null,
-      validate: { min: -180, max: 180 },
-    },
+      validate: { min: -180, max: 180 }
+    }
   },
   {
     validate: {
@@ -79,8 +79,8 @@ const User = db.define(
             'Require either both latitude and longitude or neither'
           )
         }
-      },
-    },
+      }
+    }
   }
 )
 
