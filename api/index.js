@@ -3,6 +3,7 @@ module.exports = router
 
 router.use('/user', require('./user'))
 router.use('/matches', require('./match'))
+router.use('/tags', require('./tags'))
 
 router.use((req, res, next) => {
   const error = new Error('Not Found')
