@@ -3,7 +3,7 @@
 const db = require('../db')
 const { User, Trait, UserTrait, Tag } = require('../db/models')
 
-const userData = require('./usersdata1.json')
+const userData = require('./usersdata2.json')
 
 // necessary for sequelize functions such as and/or
 // see http://docs.sequelizejs.com/manual/tutorial/querying.html
