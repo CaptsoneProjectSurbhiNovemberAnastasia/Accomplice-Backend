@@ -36,6 +36,7 @@ passport.deserializeUser(async (id, done) => {
     // this user becomes req.user
 
     const user = await db.models.user.findById(id)
+
     done(null, user)
   } catch (err) {
     done(err)
