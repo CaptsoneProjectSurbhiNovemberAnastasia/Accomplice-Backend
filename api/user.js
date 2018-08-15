@@ -7,7 +7,6 @@ module.exports = router
 router.get('/:id', async (req, res, next) => {
   try {
     // if (req.user.id === req.params.id) {
-    console.log(req.user)
     const user = await User.findById(req.params.id)
     res.json(user).status(200)
     // } else {
@@ -17,6 +16,18 @@ router.get('/:id', async (req, res, next) => {
     next(err)
   }
 })
+
+//PUT /api/user/:id
+router.put('/:id', async (req, res, next) => {
+  try {
+    const userToUpdate = await User.findById(req.params.id)
+    const updatedUser = await userToUpdate.update(req.body)
+    res.send(updatedUser).status(200)
+  } catch (err) {
+    next(err)
+  }
+})
+
 
 //GET /api/user/:id:/suggestedmatches
 router.get('/:id/suggestedmatches', async (req, res, next) => {
@@ -72,3 +83,4 @@ router.get('/:id/suggestedmatches', async (req, res, next) => {
     next(e)
   }
 })
+
