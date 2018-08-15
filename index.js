@@ -53,7 +53,7 @@ const createApp = () => {
       'Access-Control-Allow-Headers',
       'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept'
     )
-    console.log('origin:', req.headers.origin)
+
     if ('OPTIONS' === req.method) {
       res.sendStatus(200)
     } else {
