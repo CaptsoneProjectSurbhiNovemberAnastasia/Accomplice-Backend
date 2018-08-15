@@ -39,7 +39,7 @@ router.get('/:id/suggestedmatches', async (req, res, next) => {
           possibleUserMatchIds = possibleUserMatchIds.concat(currentMatchIds)
         }
 
-        //filter out ourself AND duplicates
+        //filter out ourself
         possibleUserMatchIds = possibleUserMatchIds.filter(
           mch => mch.userId !== ourUserId
         )
