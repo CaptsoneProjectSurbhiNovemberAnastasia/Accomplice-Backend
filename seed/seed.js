@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../db')
-const { User, Trait, UserTrait, Tag } = require('../db/models')
+const { User, Trait, UserTrait, Tag, Question } = require('../db/models')
 
 const userData = require('./usersdata2.json')
 
@@ -52,6 +52,22 @@ async function tagSeed() {
   }
 }
 
+async function questionSeed() {
+  try {
+    let traits = await Trait.findAll()
+    let j = 0;
+    let questions = ["I am the life of the party.", "I am interested in people.", "I don't mind being the center of attention.", "I don't get stressed out easily.", "I worry about irrelevent things.", "I don't have many mood swings.", "I often compliment people.", "I usually go with the flow when it comes to group plans.", "I seldom start fights with people.", "I make people feel at ease.", "I am interested in other what others have to say.", "I often recognize people's emotions around me.", "I have a rich vocabulary.", "I am interested in abstract ideas.", "I have a lot of creative ideas."]
+    for (var i = 0; i < questions.length; i++) {
+      let currentQuestion = await Question.create({ question: questions[i] })
+      if (i % 3 === 0 && i !== 0) j++
+      await currentQuestion.setTrait(traits[j])
+    }
+    console.log(`seeded ${questions.length} questions`)
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 async function userSeed() {
   try {
     let traits = await Trait.findAll()
@@ -94,6 +110,7 @@ async function runSeed() {
     await db.sync({ force: true })
     console.log('db synced!')
     await traitSeed()
+    await questionSeed()
     await userSeed()
     await tagSeed()
   } catch (err) {
