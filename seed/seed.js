@@ -29,7 +29,7 @@ async function traitSeed() {
       Trait.create({ name: 'EmotionalStability' }),
       Trait.create({ name: 'Agreeableness' }),
       Trait.create({ name: 'Conscientiousness' }),
-      Trait.create({ name: 'Intellect / Imagination' }),
+      Trait.create({ name: 'Intellect / Imagination' })
     ])
 
     console.log(`seeded ${traits.length} traits`)
@@ -43,7 +43,7 @@ async function tagSeed() {
     const categories = await Promise.all([
       Tag.create({ name: 'Athletic' }),
       Tag.create({ name: 'Indoor' }),
-      Tag.create({ name: 'Artistic' }),
+      Tag.create({ name: 'Artistic' })
     ])
 
     console.log(`seeded ${categories.length} categories`)
@@ -56,11 +56,23 @@ async function userSeed() {
   try {
     let traits = await Trait.findAll()
     for (let i = 0; i < userData.length; i++) {
+      let randomNumberForImage = Math.floor(Math.random() * 100)
+      let gender = 'men'
+      if (randomNumberForImage % 2 === 0) {
+        gender = 'women'
+      }
+      userData[i].imageUrl =
+        'https://randomuser.me/api/portraits/' +
+        gender +
+        '/' +
+        randomNumberForImage +
+        '.jpg'
+
       const currentUser = await User.create(userData[i])
       traits.forEach(async trait => {
         try {
           await currentUser.addTrait(trait, {
-            through: { value: Math.floor(Math.random() * 100) },
+            through: { value: Math.floor(Math.random() * 100) }
           })
         } catch (e) {
           console.log(e)
