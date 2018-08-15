@@ -23,23 +23,30 @@ router.get('/:id/suggestedmatches', async (req, res, next) => {
   try {
     const ourUserId = Number(req.params.id)
     if (req.user.id === ourUserId) {
-      const match = await SuggestedMatchesPerUser.findOne({
+      const matches = await SuggestedMatchesPerUser.findAll({
         where: { userId: ourUserId },
       })
-      if (match) {
-        const matchId = match.suggestedMatchId
+      if (matches) {
+        const matchIds = matches.map(a => a.suggestedMatchId)
 
-        let possibleUserMatchIds = await SuggestedMatchesPerUser.findAll({
-          where: { suggestedMatchId: matchId },
-        })
+        let possibleUserMatchIds = []
 
-        let possibleMatches = []
+        // instead of Op.in we have to use a for loop...
+        for (let i = 0; i < matchIds.length; i++) {
+          let currentMatchIds = await SuggestedMatchesPerUser.findAll({
+            where: { suggestedMatchId: matchIds[i] },
+          })
+          possibleUserMatchIds = possibleUserMatchIds.concat(currentMatchIds)
+        }
 
-        //filter out ourself
+        //filter out ourself AND duplicates
         possibleUserMatchIds = possibleUserMatchIds.filter(
           mch => mch.userId !== ourUserId
         )
 
+        let possibleMatches = []
+
+        // again, Op.in doesn't work for some reason, so a for loop
         for (let i = 0; i < possibleUserMatchIds.length; i++) {
           possibleMatches.push(
             await User.findOne({
@@ -47,6 +54,12 @@ router.get('/:id/suggestedmatches', async (req, res, next) => {
             })
           )
         }
+
+        // filter out duplicates
+        let keys = possibleMatches.map(ele => ele.id)
+        possibleMatches = possibleMatches.filter(
+          (ele, i) => keys.indexOf(ele.id) === i
+        )
 
         res.json(possibleMatches).status(200)
       } else {
