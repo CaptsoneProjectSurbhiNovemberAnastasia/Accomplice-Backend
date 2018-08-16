@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { SuggestedMatchesPerUser, User, Tag } = require('../db/models')
+const { SuggestedMatchesPerUser, User } = require('../db/models')
 
 module.exports = router
 
