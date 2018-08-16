@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { SuggestedMatchesPerUser, User } = require('../db/models')
+const { SuggestedMatchesPerUser, User, Tag } = require('../db/models')
 
 module.exports = router
 
@@ -27,7 +27,6 @@ router.put('/:id', async (req, res, next) => {
     next(err)
   }
 })
-
 
 //GET /api/user/:id:/suggestedmatches
 router.get('/:id/suggestedmatches', async (req, res, next) => {
@@ -83,4 +82,3 @@ router.get('/:id/suggestedmatches', async (req, res, next) => {
     next(e)
   }
 })
-
