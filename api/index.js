@@ -5,7 +5,6 @@ router.use('/user', require('./user'))
 router.use('/matches', require('./match'))
 router.use('/tags', require('./tags'))
 router.use('/activity', require('./activity'))
-router.use('/zipcode', require('./zipcode'))
 
 router.use((req, res, next) => {
   const error = new Error('Not Found')
