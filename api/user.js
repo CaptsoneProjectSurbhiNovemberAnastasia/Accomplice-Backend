@@ -28,7 +28,6 @@ router.put('/:id', async (req, res, next) => {
   }
 })
 
-
 //GET /api/user/:id:/suggestedmatches
 router.get('/:id/suggestedmatches', async (req, res, next) => {
   try {
@@ -83,4 +82,3 @@ router.get('/:id/suggestedmatches', async (req, res, next) => {
     next(e)
   }
 })
-

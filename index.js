@@ -6,7 +6,7 @@ const session = require('express-session')
 const passport = require('passport')
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
 const db = require('./db')
-const sessionStore = new SequelizeStore({ db }) //store cart in this session
+const sessionStore = new SequelizeStore({ db })
 const PORT = process.env.PORT || 8080
 const app = express()
 const socketio = require('socket.io')
@@ -36,6 +36,7 @@ passport.deserializeUser(async (id, done) => {
     // this user becomes req.user
 
     const user = await db.models.user.findById(id)
+
     done(null, user)
   } catch (err) {
     done(err)

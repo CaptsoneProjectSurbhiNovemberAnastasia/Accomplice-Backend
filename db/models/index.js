@@ -24,6 +24,9 @@ Tag.belongsToMany(Activity, { through: 'activity_tag' })
 User.belongsTo(Activity)
 Activity.hasMany(User)
 
+User.belongsToMany(Tag, { through: 'selected_tag' })
+Tag.belongsToMany(User, { through: 'selected_tag' })
+
 User.belongsToMany(User, { through: Match, as: 'matched' })
 
 User.belongsToMany(SuggestedMatch, {
