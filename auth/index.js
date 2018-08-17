@@ -42,6 +42,15 @@ router.post('/logout', (req, res) => {
   res.sendStatus(200)
 })
 
-router.get('/me', (req, res) => {
-  res.json(req.user)
+router.get('/me', async (req, res, next) => {
+  try {
+    const you = await User.findById(req.user.id)
+    const yourActivity = await you.getActivity()
+    const yourActivityTags = await yourActivity.getTags()
+    yourActivity.dataValues.tags = yourActivityTags
+    req.user.activity = yourActivity
+    res.json(req.user)
+  } catch (e) {
+    next(e)
+  }
 })
