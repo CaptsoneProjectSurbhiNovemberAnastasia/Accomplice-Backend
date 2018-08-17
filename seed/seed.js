@@ -1,14 +1,12 @@
 'use strict'
 
 const db = require('../db')
-const { User, Trait, UserTrait, Tag } = require('../db/models')
+const { User, Trait, Tag, Activity } = require('../db/models')
 
 const userData = require('./usersdata2.json')
 
 // necessary for sequelize functions such as and/or
 // see http://docs.sequelizejs.com/manual/tutorial/querying.html
-const Sequelize = require('sequelize')
-const Op = Sequelize.Op
 
 /**
  * Welcome to the seed file! This seed file uses a newer language feature called...
@@ -29,32 +27,57 @@ async function traitSeed() {
       Trait.create({ name: 'EmotionalStability' }),
       Trait.create({ name: 'Agreeableness' }),
       Trait.create({ name: 'Conscientiousness' }),
-      Trait.create({ name: 'Intellect / Imagination' })
+      Trait.create({ name: 'Intellect / Imagination' }),
     ])
 
     console.log(`seeded ${traits.length} traits`)
   } catch (e) {
-    console.log(e)
+    console.error(e)
   }
 }
 
 async function tagSeed() {
   try {
-    const categories = await Promise.all([
+    const tags = await Promise.all([
       Tag.create({ name: 'Athletic' }),
       Tag.create({ name: 'Indoor' }),
-      Tag.create({ name: 'Artistic' })
+      Tag.create({ name: 'Artistic' }),
+      Tag.create({ name: 'Outdoor' }),
+      Tag.create({ name: 'Relaxing' }),
     ])
 
-    console.log(`seeded ${categories.length} categories`)
+    console.log(`seeded ${tags.length} tags`)
   } catch (e) {
-    console.log(e)
+    console.error(e)
+  }
+}
+
+async function activitySeed() {
+  try {
+    const activities = await Promise.all([
+      Activity.create({ name: 'go fishing' }),
+      Activity.create({ name: 'go rock climbing' }),
+      Activity.create({ name: 'go to the MoMA' }),
+      Activity.create({ name: 'go to the beach' }),
+      Activity.create({ name: 'go to the park' }),
+      Activity.create({ name: "see 'Sorry to Bother You'" }),
+    ])
+    const tags = await Tag.findAll()
+
+    for (let i = 0; i < activities.length; i++) {
+      const tag = tags[Math.floor(Math.random() * tags.length)]
+      await activities[i].addTag(tag)
+    }
+    console.log(`seeded ${activities.length} activities`)
+  } catch (e) {
+    console.error(e)
   }
 }
 
 async function userSeed() {
   try {
-    let traits = await Trait.findAll()
+    const traits = await Trait.findAll()
+    const activities = await Activity.findAll()
     for (let i = 0; i < userData.length; i++) {
       let randomNumberForImage = Math.floor(Math.random() * 100)
       let gender = 'men'
@@ -69,20 +92,21 @@ async function userSeed() {
         '.jpg'
 
       const currentUser = await User.create(userData[i])
-      traits.forEach(async trait => {
-        try {
-          await currentUser.addTrait(trait, {
-            through: { value: Math.floor(Math.random() * 100) }
-          })
-        } catch (e) {
-          console.log(e)
-        }
-      })
+
+      for (let j = 0; j < traits.length; j++) {
+        await currentUser.addTrait(traits[j], {
+          through: { value: Math.floor(Math.random() * 100) },
+        })
+      }
+
+      currentUser.setActivity(
+        activities[Math.floor(Math.random() * activities.length)]
+      )
     }
 
     console.log(`seeded ${userData.length} users`)
   } catch (e) {
-    console.log(e)
+    console.error(e)
   }
 }
 // We've separated the `seed` function from the `runSeed` function.
@@ -94,8 +118,9 @@ async function runSeed() {
     await db.sync({ force: true })
     console.log('db synced!')
     await traitSeed()
-    await userSeed()
     await tagSeed()
+    await activitySeed()
+    await userSeed()
   } catch (err) {
     console.error(err)
     process.exitCode = 1

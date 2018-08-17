@@ -49,6 +49,7 @@ router.get('/me', async (req, res, next) => {
     const yourActivityTags = await yourActivity.getTags()
     yourActivity.dataValues.tags = yourActivityTags
     req.user.activity = yourActivity
+    console.log(req.user)
     res.json(req.user)
   } catch (e) {
     next(e)
