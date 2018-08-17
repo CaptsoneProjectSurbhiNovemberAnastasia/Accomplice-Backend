@@ -87,21 +87,18 @@ router.get('/:id/suggestedmatches', async (req, res, next) => {
 router.post('/traits', async (req, res, next) => {
   try {
     // const you = await User.findById(req.user.id)
-
+    console.log(req.body)
     // let userTraits = []
     // for (let i = 0; i <= 5; i++) {
     //   let trait = await UserTrait.create({
-    //     value: req.body.values[i],
+    //     value: req.body.userTraitValues[i],
     //     traitId: i++,
     //     userId: req.user.id
     //   })
     //   userTraits.push(trait)
     // }
-
-    // await you.setTrait()
-    // we don't want a trait on the user
-
-    res.json('data')
+    //you.setTrait()
+    res.json("data")
   } catch (err) {
     next(err)
   }
