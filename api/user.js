@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { SuggestedMatchesPerUser, User } = require('../db/models')
+const { SuggestedMatchesPerUser, User, Trait } = require('../db/models')
 
 module.exports = router
 
@@ -100,3 +100,22 @@ router.get('/:id/suggestedmatches', async (req, res, next) => {
     next(e)
   }
 })
+
+//PUT /api/user/traits
+router.post('/traits', async (req, res, next) => {
+  try {
+    const traits = await Trait.findAll()
+    const you = await User.findById(req.user.id)
+
+    for (let i = 0 ; i <= 5; i++) {
+      await you.addTrait(traits[i], { through: {value: req.body.userTraitValues[i]}})
+    }
+
+    const yourTraits = await you.getTraits()
+
+    res.json(yourTraits)
+  } catch (err) {
+    next(err)
+  }
+})
+

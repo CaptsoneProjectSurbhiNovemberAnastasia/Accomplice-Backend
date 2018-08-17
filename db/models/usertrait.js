@@ -20,4 +20,5 @@ const UserTrait = db.define('user_trait', {
     },
   },
 })
+
 module.exports = UserTrait
