@@ -113,10 +113,9 @@ async function userSeed() {
     const activities = await Activity.findAll()
     for (let i = 0; i < userData.length; i++) {
       let randomNumberForImage = Math.floor(Math.random() * 100)
-      let gender = 'men'
-      if (randomNumberForImage % 2 === 0) {
-        gender = 'women'
-      }
+      let gender
+      randomNumberForImage % 2 ? (gender = 'men') : (gender = 'women')
+
       userData[i].imageUrl =
         'https://randomuser.me/api/portraits/' +
         gender +
@@ -155,13 +154,12 @@ async function runSeed() {
     await tagSeed()
     await activitySeed()
     await userSeed()
-  } catch (err) {
-    console.error(err)
-    process.exitCode = 1
-  } finally {
     console.log('closing db connection')
     await db.close()
     console.log('db connection closed')
+  } catch (err) {
+    console.error(err)
+    process.exitCode = 1
   }
 }
 

@@ -107,8 +107,10 @@ router.post('/traits', async (req, res, next) => {
     const traits = await Trait.findAll()
     const you = await User.findById(req.user.id)
 
-    for (let i = 0 ; i <= 5; i++) {
-      await you.addTrait(traits[i], { through: {value: req.body.userTraitValues[i]}})
+    for (let i = 0; i <= 5; i++) {
+      await you.addTrait(traits[i], {
+        through: { value: req.body.userTraitValues[i] },
+      })
     }
 
     const yourTraits = await you.getTraits()
@@ -118,4 +120,3 @@ router.post('/traits', async (req, res, next) => {
     next(err)
   }
 })
-
