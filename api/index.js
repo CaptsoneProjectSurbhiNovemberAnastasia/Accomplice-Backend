@@ -7,7 +7,6 @@ router.use('/matches', require('./match'))
 router.use('/questions', require('./question'))
 router.use('/tags', require('./tags'))
 router.use('/activity', require('./activity'))
-router.use('/zipcode', require('./zipcode'))
 
 
 router.use((req, res, next) => {
