@@ -111,7 +111,7 @@ async function userSeed() {
   try {
     const traits = await Trait.findAll()
     const activities = await Activity.findAll()
-    for (let i = 0; i < userData.length; i++) {
+    for (let i = 0; i < (userData.length / 2); i++) {
       let randomNumberForImage = Math.floor(Math.random() * 100)
       let gender
       randomNumberForImage % 2 ? (gender = 'men') : (gender = 'women')

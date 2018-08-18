@@ -3,7 +3,6 @@ module.exports = router
 
 router.use('/user', require('./user'))
 router.use('/matches', require('./match'))
-
 router.use('/questions', require('./question'))
 router.use('/tags', require('./tags'))
 router.use('/activity', require('./activity'))
