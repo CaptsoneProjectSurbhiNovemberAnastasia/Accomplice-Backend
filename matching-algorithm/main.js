@@ -20,7 +20,7 @@ const init = async () => {
 
     let pC = 0.8
     let pM = 0.005
-    let popSize = 50
+    let popSize = 1000
     let seed = allUsers
     let ourPopulation
 
@@ -34,9 +34,9 @@ const init = async () => {
       runNTimes(tick, n)
       return ourPopulation
     }
-
-    const evolvedPopulation = runAlgorithm(10)
-
+    console.log('running algorithm...')
+    const evolvedPopulation = runAlgorithm(1)
+    console.log('algorithm done! populating database...')
     const allIndividuals = evolvedPopulation.currentPopulation
     // phew...
     for (let i = 0; i < allIndividuals.length; i++) {
@@ -48,7 +48,7 @@ const init = async () => {
         await userFromDB.addSuggested_match(modelOfCurrentIndividual)
       }
     }
-
+    console.log('database populated! getting average fitness...')
     return evolvedPopulation
   } catch (e) {
     console.log(e)
@@ -56,7 +56,7 @@ const init = async () => {
 }
 
 init()
-  .then(pop => console.log(pop.getAverageFitness()))
+  .then(pop => console.log('average fitness:', pop.getAverageFitness()))
   .catch(e => console.log(e))
   .then(() => process.exit())
 module.exports = init

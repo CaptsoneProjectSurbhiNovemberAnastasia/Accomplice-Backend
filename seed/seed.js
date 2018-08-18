@@ -66,8 +66,8 @@ async function activitySeed() {
     const tags = await Tag.findAll()
 
     for (let i = 0; i < activities.length; i++) {
-      const tag = tags[Math.floor(Math.random() * tags.length)]
-      await activities[i].addTag(tag)
+      const randomTags = tags.slice([Math.floor(Math.random() * tags.length)])
+      await activities[i].addTags(randomTags)
     }
     console.log(`seeded ${activities.length} activities`)
   } catch (e) {
