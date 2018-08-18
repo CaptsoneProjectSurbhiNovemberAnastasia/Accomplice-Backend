@@ -10,7 +10,9 @@
     "start": "node index.js",
     "deploy": "script/deploy"
   },
-  "keywords": ["heroku"],
+  "keywords": [
+    "heroku"
+  ],
   "author": "",
   "engines": {
     "node": "8.10.0"
@@ -35,6 +37,7 @@
     "pg-hstore": "^2.3.2",
     "react-swipe-card": "^0.1.4",
     "sequelize": "^4.38.0",
-    "socket.io": "^2.1.1"
+    "socket.io": "^2.1.1",
+    "webpack": "^4.16.5"
   }
 }
