@@ -1,14 +1,19 @@
 {
-  "name": "back-end",
+  "name": "accomplice",
   "version": "1.0.0",
-  "description": "",
+  "description": "express back-end for the accomplice application",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 0",
     "seed": "node seed/seed.js",
-    "algorithm": "node matching-algorithm/main.js"
+    "algorithm": "node matching-algorithm/main.js",
+    "start": "node index.js"
   },
+  "keywords": ["heroku"],
   "author": "",
+  "engines": {
+    "node": "8.10.0"
+  },
   "license": "ISC",
   "dependencies": {
     "axios": "^0.18.0",
