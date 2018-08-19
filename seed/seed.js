@@ -117,7 +117,7 @@ async function userSeed() {
       randomNumberForImage % 2 ? (gender = 'men') : (gender = 'women')
 
       userData[i].imageUrl =
-        'https://randomuser.me/api/portraits/' +
+      'https://s3.us-east-2.amazonaws.com/accomplice1/' +
         gender +
         '/' +
         randomNumberForImage +
