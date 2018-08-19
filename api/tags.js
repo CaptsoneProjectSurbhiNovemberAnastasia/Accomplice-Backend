@@ -7,18 +7,27 @@ router.get('/', async (req, res, next) => {
   try {
     const you = await User.findById(req.user.id)
     const yourTags = await you.getTags()
+    const yourActivity = await you.getActivity()
+    const yourActivityTags = await yourActivity.getTags()
+    const yourActivityTagIds = yourActivityTags.map(tag => tag.id)
     const yourTagIds = yourTags.map(tag => tag.id)
     const tags = await Tag.findAll()
-    const tagsWithSelected = tags.map(tag => {
+    const tagsWithData = tags.map(tag => {
       if (yourTagIds.includes(tag.id)) {
         tag.dataValues.selected = true
       } else {
         tag.dataValues.selected = false
       }
 
+      if (yourActivityTagIds.includes(tag.id)) {
+        tag.dataValues.activity = true
+      } else {
+        tag.dataValues.activity = false
+      }
+
       return tag
     })
-    res.json(tagsWithSelected)
+    res.json(tagsWithData)
   } catch (e) {
     next(e)
   }

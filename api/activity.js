@@ -17,6 +17,22 @@ router.post('/', async (req, res, next) => {
   try {
     const you = await User.findById(req.user.id)
 
+    const yourNewActivity = await Activity.create({ name: req.body.name })
+
+    await you.setActivity(yourNewActivity)
+
+    const yourActivity = await you.getActivity()
+
+    res.json(yourActivity)
+  } catch (e) {
+    next(e)
+  }
+})
+
+router.post('/tags', async (req, res, next) => {
+  try {
+    const you = await User.findById(req.user.id)
+    const yourActivity = await you.getActivity()
     const yourActivityTags = []
 
     for (let i = 0; i < req.body.tags.length; i++) {
@@ -24,15 +40,8 @@ router.post('/', async (req, res, next) => {
       yourActivityTags.push(tag)
     }
 
-    const yourNewActivity = await Activity.create({ name: req.body.name })
-
-    await you.setActivity(yourNewActivity)
-
-    await yourNewActivity.setTags(yourActivityTags)
-
-    const yourActivity = await you.getActivity()
-
-    res.json(yourActivity)
+    await yourActivity.setTags(yourActivityTags)
+    res.json(yourActivityTags)
   } catch (e) {
     next(e)
   }

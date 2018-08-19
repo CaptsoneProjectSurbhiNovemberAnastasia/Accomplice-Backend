@@ -17,7 +17,6 @@ const RArray = require('./RArray')
  */
 class Population {
   constructor(size, seed, probCross, probMuta) {
-    // size shall be an integer to multiply allUsers by -- can elaborate on request
     this.seed = seed
     this.probCross = probCross
     this.probMuta = probMuta

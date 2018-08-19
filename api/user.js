@@ -3,32 +3,18 @@ const { SuggestedMatchesPerUser, User, Trait } = require('../db/models')
 
 module.exports = router
 
-router.use(async (req, res, next) => {
-  try {
-    const you = await User.findById(req.user.id)
-    const yourActivity = await you.getActivity()
-    const yourActivityTags = await yourActivity.getTags()
-    yourActivity.dataValues.tags = yourActivityTags
-    req.user.activity = yourActivity
-    next()
-  } catch (e) {
-    next(e)
-  }
-})
-//GET /api/user/:id single user
-router.get('/:id', (req, res, next) => {
-  try {
-    res.json(req.user)
-  } catch (err) {
-    next(err)
-  }
-})
-
 //PUT /api/user/:id
 router.put('/:id', async (req, res, next) => {
   try {
+    const { description, imageUrl, age, firstName, lastName } = req.body
     const userToUpdate = await User.findById(req.params.id)
-    const updatedUser = await userToUpdate.update(req.body)
+    const updatedUser = await userToUpdate.update({
+      description,
+      imageUrl,
+      age,
+      firstName,
+      lastName,
+    })
     res.send(updatedUser).status(200)
   } catch (err) {
     next(err)
