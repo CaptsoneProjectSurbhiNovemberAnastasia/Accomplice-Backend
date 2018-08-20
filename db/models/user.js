@@ -1,6 +1,7 @@
 const crypto = require('crypto')
 const Sequelize = require('sequelize')
 const db = require('../db')
+const SuggestedMatch = require('./suggestedMatch')
 
 const User = db.define(
   'user',
@@ -118,6 +119,15 @@ User.prototype.getSanitizedDataValues = function() {
   }
 }
 
+User.prototype.encorporateIntoMatchPool = async function() {
+  try {
+    const matchPool = await SuggestedMatch.findAll()
+    const randomIndex = Math.floor(Math.random() * matchPool.length)
+    await this.addSuggested_match(matchPool[randomIndex])
+  } catch (e) {
+    console.error(e)
+  }
+}
 /**
  * classMethods
  */
