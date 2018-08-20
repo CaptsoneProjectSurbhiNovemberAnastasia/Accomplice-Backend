@@ -81,8 +81,6 @@ const createApp = () => {
   app.use(passport.initialize())
   app.use(passport.session())
 
-  // get a user object that's safe to send as a response
-
   // auth and api routes
   app.use('/auth', require('./auth'))
   app.use('/api', require('./api'))
