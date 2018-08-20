@@ -53,7 +53,6 @@ const createApp = () => {
       'Access-Control-Allow-Headers',
       'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept'
     )
-
     if ('OPTIONS' === req.method) {
       res.sendStatus(200)
     } else {
@@ -115,8 +114,7 @@ const createApp = () => {
 
 const startListening = () => {
   // start listening (and create a 'server' object representing our server)
-  app.listen(PORT, () =>
-    console.log(`Mixing it up on port ${PORT}`))
+  app.listen(PORT, () => console.log(`Mixing it up on port ${PORT}`))
 }
 
 const syncDb = () => db.sync()

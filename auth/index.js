@@ -15,7 +15,10 @@ router.post('/login', async (req, res, next) => {
 
       res.status(401).send('Wrong username and/or password')
     } else {
-      req.login(user, err => (err ? next(err) : res.json(user)))
+      req.login(
+        user,
+        err => (err ? next(err) : res.json(user.getSanitizedDataValues()))
+      )
     }
   } catch (err) {
     next(err)
@@ -25,7 +28,10 @@ router.post('/login', async (req, res, next) => {
 router.post('/signup', async (req, res, next) => {
   try {
     const user = await User.create(req.body)
-    req.login(user, err => (err ? next(err) : res.json(user)))
+    req.login(
+      user,
+      err => (err ? next(err) : res.json(user.getSanitizedDataValues()))
+    )
   } catch (err) {
     if (err.name === 'SequelizeUniqueConstraintError') {
       res.status(401).send('User already exists')
@@ -40,7 +46,10 @@ router.post('/facebookLogin', async (req, res, next) => {
     let user = await User.findOne({ where: { email: req.body.email } })
     if (!user) user = await User.create(req.body)
 
-    req.login(user, err => (err ? next(err) : res.json(user)))
+    req.login(
+      user,
+      err => (err ? next(err) : res.json(user.getSanitizedDataValues()))
+    )
   } catch (err) {
     if (err.name === 'SequelizeUniqueConstraintError') {
       res.status(401).send('User already exists')
@@ -57,7 +66,7 @@ router.post('/logout', (req, res) => {
 
 router.get('/me', async (req, res, next) => {
   try {
-    res.json(req.user)
+    res.json(req.user.getSanitizedDataValues())
   } catch (e) {
     next(e)
   }
