@@ -118,6 +118,14 @@ User.prototype.getSanitizedDataValues = function() {
   }
 }
 
+User.prototype.encorporateIntoMatchPool = async function(matchPool) {
+  try {
+    const randomIndex = Math.floor(Math.random() * matchPool.length)
+    await this.addSuggested_match(matchPool[randomIndex])
+  } catch (e) {
+    console.error(e)
+  }
+}
 /**
  * classMethods
  */
