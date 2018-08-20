@@ -1,1 +1,1 @@
-Express / Node back end for Accomplice, by [https://github.com/surbhiguptasai](Surbhi), [https://github.com/anastasiagarelli](Anastasia), and [https://github.com/nvmbrw](November).
+Express / Node back end for Accomplice, by [Surbhi](https://github.com/surbhiguptasai), [Anastasia](https://github.com/anastasiagarelli), and [November](https://github.com/nvmbrw).
