@@ -38,7 +38,7 @@ router.post('/:id', async (req, res, next) => {
     await you.addMatched(them)
     const theirMatches = await them.getMatched()
     if (theirMatches.some(match => match.matchedId === you.id)) {
-      res.json(them)
+      res.json(them.getSanitizedDataValues())
     } else {
       res.sendStatus(200)
     }

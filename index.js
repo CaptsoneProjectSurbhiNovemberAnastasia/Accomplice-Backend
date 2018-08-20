@@ -53,7 +53,6 @@ const createApp = () => {
       'Access-Control-Allow-Headers',
       'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept'
     )
-
     if ('OPTIONS' === req.method) {
       res.sendStatus(200)
     } else {
@@ -81,6 +80,8 @@ const createApp = () => {
   )
   app.use(passport.initialize())
   app.use(passport.session())
+
+  // get a user object that's safe to send as a response
 
   // auth and api routes
   app.use('/auth', require('./auth'))
@@ -115,8 +116,7 @@ const createApp = () => {
 
 const startListening = () => {
   // start listening (and create a 'server' object representing our server)
-  app.listen(PORT, () =>
-    console.log(`Mixing it up on port ${PORT}`))
+  app.listen(PORT, () => console.log(`Mixing it up on port ${PORT}`))
 }
 
 const syncDb = () => db.sync()

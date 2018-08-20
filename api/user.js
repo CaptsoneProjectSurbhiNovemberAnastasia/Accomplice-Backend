@@ -6,8 +6,11 @@ module.exports = router
 //PUT /api/user/:id
 router.put('/:id', async (req, res, next) => {
   try {
+    if (req.user.id !== +req.params.id) {
+      res.sendStatus(401)
+    }
     const { description, imageUrl, age, firstName, lastName } = req.body
-    const userToUpdate = await User.findById(req.params.id)
+    const userToUpdate = await User.findById(req.user.id)
     const updatedUser = await userToUpdate.update({
       description,
       imageUrl,
@@ -15,7 +18,7 @@ router.put('/:id', async (req, res, next) => {
       firstName,
       lastName,
     })
-    res.send(updatedUser).status(200)
+    res.send(updatedUser.getSanitizedDataValues()).status(200)
   } catch (err) {
     next(err)
   }
@@ -24,7 +27,10 @@ router.put('/:id', async (req, res, next) => {
 //GET /api/user/:id:/suggestedmatches
 router.get('/:id/suggestedmatches', async (req, res, next) => {
   try {
-    const ourUserId = Number(req.params.id)
+    if (req.user.id !== +req.params.id) {
+      res.sendStatus(401)
+    }
+    const ourUserId = Number(req.user.id)
     const matches = await SuggestedMatchesPerUser.findAll({
       where: { userId: ourUserId },
     })
