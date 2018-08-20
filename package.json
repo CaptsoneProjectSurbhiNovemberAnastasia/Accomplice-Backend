@@ -7,12 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 0",
     "seed": "node seed/seed.js",
     "algorithm": "node matching-algorithm/main.js",
-    "start": "node index.js",
+    "start": "nodemon index.js",
     "deploy": "script/deploy"
   },
-  "keywords": [
-    "heroku"
-  ],
+  "keywords": ["heroku"],
   "author": "",
   "engines": {
     "node": "8.10.0"
