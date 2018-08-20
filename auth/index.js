@@ -43,11 +43,6 @@ router.post('/logout', (req, res) => {
 
 router.get('/me', async (req, res, next) => {
   try {
-    const you = await User.findById(req.user.id)
-    const yourActivity = await you.getActivity()
-    const yourActivityTags = await yourActivity.getTags()
-    yourActivity.dataValues.tags = yourActivityTags
-    req.user.dataValues.activity = yourActivity
     res.json(req.user)
   } catch (e) {
     next(e)
