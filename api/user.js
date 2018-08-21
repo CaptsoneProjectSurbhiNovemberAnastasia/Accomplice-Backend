@@ -6,6 +6,7 @@ module.exports = router
 //PUT /api/user/:id
 router.put('/:id', async (req, res, next) => {
   try {
+    if (!req.user) res.json({})
     if (req.user.id !== +req.params.id) {
       res.sendStatus(401)
     }
@@ -27,6 +28,8 @@ router.put('/:id', async (req, res, next) => {
 //GET /api/user/:id:/suggestedmatches
 router.get('/:id/suggestedmatches', async (req, res, next) => {
   try {
+    if (!req.user) res.json([])
+
     if (req.user.id !== +req.params.id) {
       res.sendStatus(401)
     }
@@ -92,6 +95,7 @@ router.get('/:id/suggestedmatches', async (req, res, next) => {
 //PUT /api/user/traits
 router.post('/traits', async (req, res, next) => {
   try {
+    if (!req.user) res.json([])
     const traits = await Trait.findAll()
     const you = await User.findById(req.user.id)
 
