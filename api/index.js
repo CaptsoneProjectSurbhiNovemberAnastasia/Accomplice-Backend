@@ -1,7 +1,6 @@
 const router = require('express').Router()
 module.exports = router
 
-<<<<<<< HEAD
 //if you aren't logged in, you shouldn't have access to any api routes -- you'll only be able to access auth routes, to log in
 
 // router.use((req, res, next) => {
@@ -18,8 +17,6 @@ module.exports = router
 //   Secrets.findAll()
 // })
 
-=======
->>>>>>> master
 router.use('/user', require('./user'))
 router.use('/matches', require('./match'))
 router.use('/questions', require('./question'))
