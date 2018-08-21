@@ -9,18 +9,17 @@ router.get('/', async (req, res, next) => {
       res.json([]).status(200)
       return
     }
+    const tags = await Tag.findAll()
+
     const you = await User.findById(req.user.id)
     const yourTags = await you.getTags()
     const yourActivity = await you.getActivity()
-    if (!yourActivity) {
-      res.json([]).status(200)
-      return
+    let yourActivityTags = []
+    if (yourActivity) {
+      yourActivityTags = await yourActivity.getTags()
     }
-
-    const yourActivityTags = await yourActivity.getTags()
     const yourActivityTagIds = yourActivityTags.map(tag => tag.id)
     const yourTagIds = yourTags.map(tag => tag.id)
-    const tags = await Tag.findAll()
     const tagsWithData = tags.map(tag => {
       if (yourTagIds.includes(tag.id)) {
         tag.dataValues.selected = true

@@ -111,13 +111,13 @@ async function userSeed() {
   try {
     const traits = await Trait.findAll()
     const activities = await Activity.findAll()
-    for (let i = 0; i < (userData.length / 2); i++) {
+    for (let i = 0; i < userData.length / 2; i++) {
       let randomNumberForImage = Math.floor(Math.random() * 100)
       let gender
       randomNumberForImage % 2 ? (gender = 'men') : (gender = 'women')
 
       userData[i].imageUrl =
-      'https://s3.us-east-2.amazonaws.com/accomplice1/' +
+        'https://s3.us-east-2.amazonaws.com/accomplice1/' +
         gender +
         '/' +
         randomNumberForImage +
@@ -136,7 +136,7 @@ async function userSeed() {
       )
     }
 
-    console.log(`seeded ${userData.length} users`)
+    console.log(`seeded ${userData.length / 2} users`)
   } catch (e) {
     console.error(e)
   }
