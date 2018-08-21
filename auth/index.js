@@ -31,6 +31,7 @@ router.post('/signup', async (req, res, next) => {
     const user = await User.create(req.body)
     const matchPool = await SuggestedMatch.findAll()
     user.encorporateIntoMatchPool(matchPool)
+    user.matchWithTestUser()
     req.login(
       user,
       err => (err ? next(err) : res.json(user.getSanitizedDataValues()))

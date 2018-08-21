@@ -14,6 +14,7 @@ const UserTrait = db.define('user_trait', {
   value: {
     type: Sequelize.INTEGER,
     allowNull: false,
+    defaultValue: 0,
     validate: {
       min: 0,
       max: 100,
