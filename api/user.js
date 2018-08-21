@@ -17,7 +17,7 @@ router.put('/:id', async (req, res, next) => {
       imageUrl,
       age,
       firstName,
-      lastName,
+      lastName
     })
     res.send(updatedUser.getSanitizedDataValues()).status(200)
   } catch (err) {
@@ -35,7 +35,7 @@ router.get('/:id/suggestedmatches', async (req, res, next) => {
     }
     const ourUserId = Number(req.user.id)
     const matches = await SuggestedMatchesPerUser.findAll({
-      where: { userId: ourUserId },
+      where: { userId: ourUserId }
     })
     if (matches) {
       const matchIds = matches.map(a => a.suggestedMatchId)
@@ -45,7 +45,7 @@ router.get('/:id/suggestedmatches', async (req, res, next) => {
       // instead of Op.in we have to use a for loop...
       for (let i = 0; i < matchIds.length; i++) {
         let currentMatchIds = await SuggestedMatchesPerUser.findAll({
-          where: { suggestedMatchId: matchIds[i] },
+          where: { suggestedMatchId: matchIds[i] }
         })
         possibleUserMatchIds = possibleUserMatchIds.concat(currentMatchIds)
       }
@@ -61,7 +61,7 @@ router.get('/:id/suggestedmatches', async (req, res, next) => {
       for (let i = 0; i < possibleUserMatchIds.length; i++) {
         possibleMatches.push(
           await User.findOne({
-            where: { id: possibleUserMatchIds[i].userId },
+            where: { id: possibleUserMatchIds[i].userId }
           })
         )
       }
@@ -101,7 +101,7 @@ router.post('/traits', async (req, res, next) => {
 
     for (let i = 0; i <= 5; i++) {
       await you.addTrait(traits[i], {
-        through: { value: req.body.userTraitValues[i] },
+        through: { value: req.body.userTraitValues[i] }
       })
     }
 
