@@ -51,7 +51,7 @@ const User = db.define(
     },
     imageUrl: {
       type: Sequelize.TEXT,
-      defaultValue: '#',
+      defaultValue: 'https://s3.us-east-2.amazonaws.com/accomplice1/bucketFolder/1534886938144-lg.png',
     },
 
     description: {
