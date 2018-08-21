@@ -23,7 +23,6 @@ router.get('/', async (req, res, next) => {
         matchedWithEachOther.push(yourMatch)
       }
     }
-
     res.json(matchedWithEachOther)
   } catch (err) {
     next(err)

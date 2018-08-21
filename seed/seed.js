@@ -135,10 +135,9 @@ async function userSeed() {
         '.jpg'
 
       const currentUser = await User.create(userData[i])
-      await testUser.addMatched(currentUser)
 
       for (let j = 0; j < traits.length; j++) {
-        await currentUser.setTrait(traits[j], {
+        await currentUser.addTrait(traits[j], {
           through: { value: Math.floor(Math.random() * 100) },
         })
       }

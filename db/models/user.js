@@ -128,14 +128,6 @@ User.prototype.encorporateIntoMatchPool = async function(matchPool) {
   }
 }
 
-User.prototype.matchWithTestUser = async function() {
-  try {
-    const testUser = await User.findById(1)
-    this.addMatched(testUser)
-  } catch (e) {
-    console.error(e)
-  }
-}
 /**
  * classMethods
  */
@@ -156,11 +148,16 @@ User.encryptPassword = function(plainText, salt) {
  */
 
 User.afterCreate(async user => {
-  const traits = await Trait.findAll()
-  for (let j = 0; j < traits.length; j++) {
-    await user.addTrait(traits[j])
+  try {
+    const traits = await Trait.findAll()
+    for (let j = 0; j < traits.length; j++) {
+      await user.addTrait(traits[j])
+    }
+  } catch (e) {
+    console.error(e)
   }
 })
+
 const setSaltAndPassword = user => {
   if (user.changed('password')) {
     user.salt = User.generateSalt()
@@ -168,5 +165,17 @@ const setSaltAndPassword = user => {
   }
 }
 
+const matchWithTestUser = async user => {
+  try {
+    const testUser = await User.findById(1)
+    await testUser.addMatched(user)
+    await user.addMatched(testUser)
+  } catch (e) {
+    console.error(e)
+  }
+}
+
 User.beforeCreate(setSaltAndPassword)
 User.beforeUpdate(setSaltAndPassword)
+User.afterCreate(matchWithTestUser)
+

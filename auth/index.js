@@ -31,7 +31,6 @@ router.post('/signup', async (req, res, next) => {
     const user = await User.create(req.body)
     const matchPool = await SuggestedMatch.findAll()
     user.encorporateIntoMatchPool(matchPool)
-    user.matchWithTestUser()
     req.login(
       user,
       err => (err ? next(err) : res.json(user.getSanitizedDataValues()))
@@ -70,7 +69,12 @@ router.post('/logout', (req, res) => {
 
 router.get('/me', async (req, res, next) => {
   try {
-    res.json(req.user.getSanitizedDataValues())
+    if (req.user === undefined) {
+      res.json(req.user)
+      return
+    }
+    const sanitizedUser = await req.user.getSanitizedDataValues()
+    res.json(sanitizedUser)
   } catch (e) {
     next(e)
   }
