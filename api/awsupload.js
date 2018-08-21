@@ -10,8 +10,8 @@ module.exports = router
 
 // configure the keys for accessing AWS
 AWS.config.update({
-  accessKeyId: 'AKIAIQMM7Q2JSKX55ZBA',
-  secretAccessKey: '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'
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 })
 
 // configure AWS to work with promises
@@ -34,19 +34,16 @@ const uploadFile = (buffer, name, type) => {
 
 // Define POST route
 router.post('/s3-upload', (request, response) => {
-  console.log('Backkend called*******')
   const form = new multiparty.Form()
   form.parse(request, async (error, fields, files) => {
     if (error) throw new Error(error)
     try {
       const path = files.file[0].path
-      console.log('path is', path)
       const buffer = fs.readFileSync(path)
       const type = fileType(buffer)
       const timestamp = Date.now().toString()
       const fileName = `bucketFolder/${timestamp}-lg`
       const data = await uploadFile(buffer, fileName, type)
-      console.log('date is ' + data.Location)
       return response.status(200).send(data)
     } catch (error) {
       return response.status(400).send(error)
