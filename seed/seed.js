@@ -111,6 +111,17 @@ async function userSeed() {
   try {
     const traits = await Trait.findAll()
     const activities = await Activity.findAll()
+    const testUser = await User.create({
+      firstName: 'Test',
+      lastName: 'User',
+      email: 'test@email.com',
+      password: 'test',
+      facebookId: 'test',
+      age: 1,
+      latitude: 40.73061,
+      longitude: -73.935242,
+      description: 'Hi! Welcome to Accomplice!',
+    })
     for (let i = 0; i < userData.length / 2; i++) {
       let randomNumberForImage = Math.floor(Math.random() * 100)
       let gender

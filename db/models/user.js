@@ -1,6 +1,7 @@
 const crypto = require('crypto')
 const Sequelize = require('sequelize')
 const db = require('../db')
+const Trait = require('./trait')
 
 const User = db.define(
   'user',
@@ -126,6 +127,7 @@ User.prototype.encorporateIntoMatchPool = async function(matchPool) {
     console.error(e)
   }
 }
+
 /**
  * classMethods
  */
@@ -144,6 +146,18 @@ User.encryptPassword = function(plainText, salt) {
 /**
  * hooks
  */
+
+User.afterCreate(async user => {
+  try {
+    const traits = await Trait.findAll()
+    for (let j = 0; j < traits.length; j++) {
+      await user.addTrait(traits[j])
+    }
+  } catch (e) {
+    console.error(e)
+  }
+})
+
 const setSaltAndPassword = user => {
   if (user.changed('password')) {
     user.salt = User.generateSalt()
@@ -151,5 +165,17 @@ const setSaltAndPassword = user => {
   }
 }
 
+const matchWithTestUser = async user => {
+  try {
+    const testUser = await User.findById(1)
+    await testUser.addMatched(user)
+    await user.addMatched(testUser)
+  } catch (e) {
+    console.error(e)
+  }
+}
+
 User.beforeCreate(setSaltAndPassword)
 User.beforeUpdate(setSaltAndPassword)
+User.afterCreate(matchWithTestUser)
+
