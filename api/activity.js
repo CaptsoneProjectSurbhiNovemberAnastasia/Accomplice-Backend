@@ -5,6 +5,7 @@ module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
+    if (!req.user) res.json({})
     const you = await User.findById(req.user.id)
     const yourActivity = await you.getActivity()
     res.json(yourActivity)
