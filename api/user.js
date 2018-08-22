@@ -10,14 +10,15 @@ router.put('/:id', async (req, res, next) => {
     if (req.user.id !== +req.params.id) {
       res.sendStatus(401)
     }
-    const { description, imageUrl, age, firstName, lastName } = req.body
     const userToUpdate = await User.findById(req.user.id)
     const updatedUser = await userToUpdate.update({
-      description,
-      imageUrl,
-      age,
-      firstName,
-      lastName,
+      description: req.body.description || userToUpdate.description,
+      imageUrl: req.body.imageUrl || userToUpdate.imageUrl,
+      age: req.body.age || userToUpdate.age,
+      firstName: req.body.firstName || userToUpdate.firstName,
+      lastName: req.body.lastName || userToUpdate.lastName,
+      latitude: req.body.latitude || userToUpdate.latitude,
+      longitude: req.body.longitude || userToUpdate.longitude,
     })
     res.send(updatedUser.getSanitizedDataValues()).status(200)
   } catch (err) {
