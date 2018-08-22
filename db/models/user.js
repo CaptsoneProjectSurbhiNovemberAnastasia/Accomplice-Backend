@@ -124,6 +124,7 @@ User.prototype.encorporateIntoMatchPool = async function(matchPool) {
   try {
     const arbitraryInt = 10
     const randomIndex = Math.floor(Math.random() * matchPool.length)
+    await this.addSuggested_match(matchPool[0])
     for (let i = 0; i < arbitraryInt; i++) {
       await this.addSuggested_match(
         matchPool[(randomIndex + i) % (matchPool.length - 1)]

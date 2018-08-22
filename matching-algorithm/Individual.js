@@ -15,7 +15,7 @@ module.exports = class Individual {
       const userToCompare = dnaCopy.splice(0, 1)[0]
       fitness += userToCompare.getFitnessOfMatchWithAll(dnaCopy)
     }
-    return 1 / fitness
+    return fitness ? 1 / fitness : 1
   }
 
   mutate(p, genePool) {
