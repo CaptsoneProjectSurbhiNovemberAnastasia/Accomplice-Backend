@@ -80,7 +80,6 @@ class Population {
     const fitnessArr = this.currentFitnesses
     const fitnessSum = this.getSumOfAllFitnesses()
     let roll = Math.random() * fitnessSum
-
     for (let i = 0; i < this.currentPopulation.length; i++) {
       if (roll < fitnessArr[i]) {
         return this.currentPopulation[i]

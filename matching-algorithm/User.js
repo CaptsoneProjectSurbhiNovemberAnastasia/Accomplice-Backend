@@ -23,7 +23,7 @@ module.exports = class User {
       0
     )
   }
-
+  // this is a user, otherUsers is an array of users
   getFitnessOfMatchWithAll(otherUsers) {
     // otherUsers shall be an array of type DNA
     return otherUsers.reduce((a, b) => a + this.getFitnessOfMatchWith(b), 0)

@@ -10,11 +10,16 @@ module.exports = class RArray extends Array {
 
   getNRandomElements(n) {
     const randomElements = new RArray()
-    while (randomElements.length < n) {
-      // uPush may not add to the length of randomElements, thus a while loop
-      randomElements.uPush(this.getRandomElement())
+    if (this.length < n) {
+      return this
+    } else {
+      while (randomElements.length < n) {
+        // uPush may not add to the length of randomElements, thus a while loop
+        console.log(randomElements.length, n)
+        randomElements.uPush(this.getRandomElement())
+      }
+      return randomElements
     }
-    return randomElements
   }
 
   // unique element addition
@@ -30,5 +35,3 @@ module.exports = class RArray extends Array {
     }
   }
 }
-
-
