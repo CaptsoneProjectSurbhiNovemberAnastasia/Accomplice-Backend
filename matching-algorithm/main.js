@@ -20,7 +20,7 @@ const init = async () => {
 
     let pC = 0.8
     let pM = 0.005
-    let popSize = 1000
+    let popSize = 50
     let seed = allUsers
     let ourPopulation
 
