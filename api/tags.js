@@ -43,7 +43,10 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    if (!req.user) res.json([])
+    if (!req.user) {
+      res.json([])
+      return
+    }
 
     const you = await User.findById(req.user.id)
     const tagIds = req.body.map(tag => tag.id)

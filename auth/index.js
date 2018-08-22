@@ -68,11 +68,9 @@ router.post('/logout', (req, res) => {
 
 router.get('/me', async (req, res, next) => {
   try {
-    if (req.user === undefined) {
-      res.json(req.user)
-      return
-    }
-    const sanitizedUser = await req.user.getSanitizedDataValues()
+    const sanitizedUser = req.user
+      ? await req.user.getSanitizedDataValues()
+      : {}
     res.json(sanitizedUser)
   } catch (e) {
     next(e)
