@@ -15,7 +15,6 @@ module.exports = class RArray extends Array {
     } else {
       while (randomElements.length < n) {
         // uPush may not add to the length of randomElements, thus a while loop
-        console.log(randomElements.length, n)
         randomElements.uPush(this.getRandomElement())
       }
       return randomElements
