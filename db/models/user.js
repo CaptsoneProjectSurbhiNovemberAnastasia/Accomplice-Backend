@@ -51,7 +51,8 @@ const User = db.define(
     },
     imageUrl: {
       type: Sequelize.TEXT,
-      defaultValue: 'https://s3.us-east-2.amazonaws.com/accomplice1/bucketFolder/1534886938144-lg.png',
+      defaultValue:
+        'https://s3.us-east-2.amazonaws.com/accomplice1/bucketFolder/1534886938144-lg.png',
     },
 
     description: {
@@ -121,8 +122,13 @@ User.prototype.getSanitizedDataValues = function() {
 
 User.prototype.encorporateIntoMatchPool = async function(matchPool) {
   try {
+    const arbitraryInt = 10
     const randomIndex = Math.floor(Math.random() * matchPool.length)
-    await this.addSuggested_match(matchPool[randomIndex])
+    for (let i = 0; i < arbitraryInt; i++) {
+      await this.addSuggested_match(
+        matchPool[(randomIndex + i) % (matchPool.length - 1)]
+      )
+    }
   } catch (e) {
     console.error(e)
   }
@@ -178,4 +184,3 @@ const matchWithTestUser = async user => {
 User.beforeCreate(setSaltAndPassword)
 User.beforeUpdate(setSaltAndPassword)
 User.afterCreate(matchWithTestUser)
-
