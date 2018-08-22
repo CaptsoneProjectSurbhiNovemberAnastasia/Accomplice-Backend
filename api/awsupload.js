@@ -11,7 +11,7 @@ module.exports = router
 // configure the keys for accessing AWS
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 })
 
 // configure AWS to work with promises
@@ -27,7 +27,7 @@ const uploadFile = (buffer, name, type) => {
     Body: buffer,
     Bucket: 'accomplice1',
     ContentType: type.mime,
-    Key: `${name}.${type.ext}`
+    Key: `${name}.${type.ext}`,
   }
   return s3.upload(params).promise()
 }
@@ -46,6 +46,7 @@ router.post('/s3-upload', (request, response) => {
       const data = await uploadFile(buffer, fileName, type)
       return response.status(200).send(data)
     } catch (error) {
+      console.error(error)
       return response.status(400).send(error)
     }
   })

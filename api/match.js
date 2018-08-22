@@ -7,20 +7,24 @@ module.exports = router
 router.get('/', async (req, res, next) => {
   try {
     const matchedWithEachOther = []
-    const yourUserId = req.user.id
+    if (req.user) {
+      const yourUserId = req.user.id
 
-    const yourMatches = await Match.findAll({ where: { userId: yourUserId } })
+      const yourMatches = await Match.findAll({ where: { userId: yourUserId } })
 
-    const matchedWithYou = await Match.findAll({
-      where: { matchedId: yourUserId },
-    })
+      const matchedWithYou = await Match.findAll({
+        where: { matchedId: yourUserId },
+      })
 
-    for (let i = 0; i < yourMatches.length; i++) {
-      if (
-        matchedWithYou.some(match => match.userId === yourMatches[i].matchedId)
-      ) {
-        const yourMatch = await User.findById(yourMatches[i].matchedId)
-        matchedWithEachOther.push(yourMatch)
+      for (let i = 0; i < yourMatches.length; i++) {
+        if (
+          matchedWithYou.some(
+            match => match.userId === yourMatches[i].matchedId
+          )
+        ) {
+          const yourMatch = await User.findById(yourMatches[i].matchedId)
+          matchedWithEachOther.push(yourMatch)
+        }
       }
     }
     res.json(matchedWithEachOther)
