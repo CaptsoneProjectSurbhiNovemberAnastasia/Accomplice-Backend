@@ -154,7 +154,7 @@ User.encryptPassword = function(plainText, salt) {
  * hooks
  */
 
-User.afterCreate(async user => {
+const initializeTraits = async user => {
   try {
     const traits = await Trait.findAll()
     for (let j = 0; j < traits.length; j++) {
@@ -163,7 +163,7 @@ User.afterCreate(async user => {
   } catch (e) {
     console.error(e)
   }
-})
+}
 
 const setSaltAndPassword = user => {
   if (user.changed('password')) {
@@ -184,4 +184,5 @@ const matchWithTestUser = async user => {
 
 User.beforeCreate(setSaltAndPassword)
 User.beforeUpdate(setSaltAndPassword)
+User.afterCreate(initializeTraits)
 User.afterCreate(matchWithTestUser)

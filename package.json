@@ -4,7 +4,7 @@
   "description": "express back-end for the accomplice application",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 0",
+    "test": "NODE_ENV='test' mocha -w \"./db/**/*.spec.js\" --require @babel/polyfill --require @babel/register",
     "seed": "node seed/seed.js",
     "algorithm": "node matching-algorithm/main.js",
     "start": "node index.js",
@@ -43,5 +43,15 @@
     "react-swipe-card": "^0.1.4",
     "sequelize": "^4.38.0",
     "webpack": "^4.16.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/polyfill": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
+    "pg-native": "^3.0.0"
   }
 }
