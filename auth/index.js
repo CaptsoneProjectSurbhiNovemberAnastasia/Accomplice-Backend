@@ -6,6 +6,7 @@ module.exports = router
 router.post('/login', async (req, res, next) => {
   try {
     const user = await User.findOne({ where: { email: req.body.email } })
+    console.log('user inside auth is****1  ' + JSON.stringify(user))
     if (!user) {
       console.log('No such user found:', req.body.email)
 
@@ -15,12 +16,23 @@ router.post('/login', async (req, res, next) => {
 
       res.status(401).send('Wrong username and/or password')
     } else {
-      req.login(
-        user,
-        err => (err ? next(err) : res.json(user.getSanitizedDataValues()))
+      console.log('Inside else block before getting sanitized values')
+      console.log(
+        'user inside auth is****2   ' +
+          JSON.stringify('user inside auth is****3 ' + user)
+      )
+      res.json(user.getSanitizedDataValues())
+      // req.login(
+      //   user,
+      //   err => (err ? next(err) : res.json(user.getSanitizedDataValues()))
+      // )
+      console.log(
+        'user after all problems is ' +
+          JSON.stringify(user.getSanitizedDataValues())
       )
     }
   } catch (err) {
+    console.log('Error in retrieving user**********', err)
     next(err)
   }
 })

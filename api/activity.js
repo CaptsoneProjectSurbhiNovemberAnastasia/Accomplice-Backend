@@ -5,14 +5,19 @@ module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
+    //    console.log('req.user is ************' + JSON.stringify(req.user))
     if (!req.user) {
+      console.log('User not found******')
       res.json({}).status(200)
       return
     }
     const you = await User.findById(req.user.id)
+    console.log('you  is****** ' + JSON.stringify(you))
     const yourActivity = await you.getActivity()
+    console.log('yourActivity is ' + JSON.stringify(yourActivity))
     res.json(yourActivity)
   } catch (e) {
+    console.log('error is ' + e)
     next(e)
   }
 })
