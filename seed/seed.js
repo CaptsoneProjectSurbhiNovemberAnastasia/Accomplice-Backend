@@ -122,7 +122,7 @@ async function userSeed() {
       longitude: -73.935242,
       description: 'Hi! Welcome to Accomplice!',
     })
-    /*for (let i = 0; i < userData.length; i++) {
+    for (let i = 0; i < userData.length; i++) {
       let randomNumberForImage = Math.floor(Math.random() * 100)
       let gender
       randomNumberForImage % 2 ? (gender = 'men') : (gender = 'women')
@@ -145,7 +145,7 @@ async function userSeed() {
       currentUser.setActivity(
         activities[Math.floor(Math.random() * activities.length)]
       )
-    }*/
+    }
 
     console.log(`seeded test user`)
   } catch (e) {
